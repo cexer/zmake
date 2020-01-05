@@ -514,15 +514,15 @@ function targetname(name)
 		name = _PROJECT.name;
 	end
 
-	local prefix = "";
+	local fullname = name;
 	if _PROJECT.category == PROJECT_CATEGORY_STATIC then
-		prefix = "{cc}-";
+		fullname = name .. "-{cc}";
 	end
 
-	name = resolve_tokens(prefix .. name);
-	oldtargetname(name);
+	fullname = resolve_tokens(fullname);
+	oldtargetname(fullname);
 
-    _PROJECT.targetname = name;
+    _PROJECT.targetname = fullname;
 
     configuration {};
 end

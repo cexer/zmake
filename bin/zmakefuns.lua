@@ -71,10 +71,18 @@ newoption {
     description = "Project directory"
 };
 
+newaction {
+    trigger = 'version',
+    description = "Print version",
+    execute = function()
+		print("1.0.0");
+	end
+};
+
 require("zmakelibs");
 
 if not _OPTIONS["file"] then
-	_OPTIONS["file"] = "zpremake.lua";
+	_OPTIONS["file"] = "zmake.lua";
 end
 
 -- hook solution function
@@ -84,13 +92,14 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 
 	if type(macroprefix_or_initialize_cb) == "function" then
 		initialize_cb = macroprefix_or_initialize_cb
+		_SOLUTION.macroprefix = string.upper(name);
 	else
 		_SOLUTION.macroprefix = macroprefix_or_initialize_cb
 	end
 
 	language("c++");
 	location("");
-	oldobjdir("tmp");
+	oldobjdir("tmpdir");
 
 	--if _ACTION == "vs2017" then
 	--	oldfilename (name);
@@ -126,16 +135,6 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 		buildoptions { "-fdeclspec" };
 	end
 
-	--filter { "configurations:lib-debug" }
-	--   symbols "On"
-	--   --optimize "Off"
-	--   runtime "Debug"
-	--filter { "configurations:lib-release" }
-	--   --symbols "Off"
-	--   optimize "Speed"
-	--   runtime "Release"
-	--filter {};
-
 	-- apply user settings
 	initialize_cb();
 
@@ -150,12 +149,17 @@ function project(name, macroprefix_or_initialize_cb, initialize_cb)
 	_PROJECT.name = name;
 	_PROJECT.handle = oldproject(name);
 
+	_SOLUTION.projects = _SOLUTION.projects or {};
+	_SOLUTION.projects[name]= _PROJECT;
+
 	if type(macroprefix_or_initialize_cb) == "function" then
 		initialize_cb = macroprefix_or_initialize_cb
-		_PROJECT.macroprefix = _SOLUTION.macroprefix
+		_PROJECT.macroprefix = string.upper(name);
 	else
 		_PROJECT.macroprefix = macroprefix_or_initialize_cb
 	end
+
+	olddefines(_PROJECT.macroprefix .. "_BUILD");
 
 	-- apply user settings
 	initialize_cb();
@@ -224,7 +228,7 @@ local function resolve_envs(var)
 	end
 end
 
-local function get_compiler_name()
+function get_compiler_name()
 	local cc = _OPTIONS["cc"];
 	if cc then
 		return cc;
@@ -235,9 +239,19 @@ local function get_compiler_name()
 	end
 end
 
+function get_compiler_name_or_empty()
+	local cc = get_compiler_name();
+	if cc == 'vs2008' then
+		return '';
+	else
+		return cc;
+	end
+end
+
 -- replace tokens to valid premake style tokens
 local function resolve_tokens(strings, isimp, rt)
 	function resolve_one(v)
+		print("origin: " .. v);
 		v = v:gsub("{bindir}", "%%{wks.location}/bin/");
 		v = v:gsub("{libdir}", "%%{wks.location}/lib/{os}-{arch}");
 		--v = v:gsub("%-", "-");
@@ -261,9 +275,12 @@ local function resolve_tokens(strings, isimp, rt)
 		v = v:gsub("{os}", "%%{cfg.system}");
 		v = v:gsub("{os}", "%%{cfg.system}");
 		v = v:gsub("{cc}", get_compiler_name());
+		v = v:gsub("{%-cc}", get_compiler_name_or_empty());
+		--v = v:gsub("{%-cc}", "%%{iif(cfg.buildtarget and cfg.buildtarget.suffix:find('s'), get_compiler_name(), '')}");
 		v = v:gsub("{outdir}", "%%{cfg.buildtarget.directory}");
 		v = v:gsub("{outpath}", "%%{cfg.buildtarget.relpath}");
 		v = resolve_envs(v);
+		print("resolved: " .. v);
 		return v;
 	end
 
@@ -311,7 +328,7 @@ end
 
 -- set project file output location
 function directory(dir)
-	dir = dir or _PROJECT.name;
+	dir = dir or "builder";
 	dir = resolve_tokens(dir);
 
 	_PROJECT.directory = dir;
@@ -493,20 +510,6 @@ function filename(name)
 	configuration {};
 end
 
--- set dependences project which will be built before current project
-function dependbuilds(names)
-	if names then
-		if _PROJECT.category ~= PROJECT_CATEGORY_STATIC then
-			local filter = "*";
-			if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
-				filter = "dll-*";
-			end
-			configuration {filter} oldlinks(names);
-		end
-	    configuration {};
-	end
-end
-
 
 -- set build target file name
 function targetname(name)
@@ -514,11 +517,7 @@ function targetname(name)
 		name = _PROJECT.name;
 	end
 
-	local fullname = name;
-	if _PROJECT.category == PROJECT_CATEGORY_STATIC then
-		fullname = name .. "-{cc}";
-	end
-
+	local fullname = name .. "{-cc}";
 	fullname = resolve_tokens(fullname);
 	oldtargetname(fullname);
 
@@ -564,10 +563,10 @@ function targetsuffix(suffix)
 	if suffix then 
 		oldtargetsuffix(suffix) 
     else
-    	configuration {"dll-debug"} oldtargetsuffix "-d";
-    	configuration {"dll-release"} oldtargetsuffix "";
-    	configuration {"lib-debug"} oldtargetsuffix "-sd";
-    	configuration {"lib-release"} oldtargetsuffix "-s";  
+    	configuration {"dll-debug"} oldtargetsuffix(resolve_tokens("-d"));
+    	configuration {"dll-release"} oldtargetsuffix("");
+    	configuration {"lib-debug"} oldtargetsuffix "-sd"
+    	configuration {"lib-release"} oldtargetsuffix "-s"
 	end
 
 	_PROJECT.targetsuffix = suffix or true;
@@ -694,6 +693,20 @@ function links(files)
     configuration {}; 
 end
 
+-- set dependences project which will be built before current project
+function dependbuilds(names)
+	for _, name in pairs(names) do
+		if _PROJECT.category ~= PROJECT_CATEGORY_STATIC and _SOLUTION.projects[name] then
+			local filter = "*";
+			if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
+				filter = "dll-*";
+			end
+			configuration {filter} oldlinks(name);
+		end
+	    configuration {};
+	end
+end
+
 -- add dependences libraries or projects
 function depends(deps)
     function resolve_lib_self(name, lib, libs, filter)
@@ -704,7 +717,8 @@ function depends(deps)
             links = table.deepcopy(lib.links),
             postbuildcmds = table.deepcopy(lib.postbuildcmds),
             prebuildcmds = table.deepcopy(lib.prebuildcmds),
-            filter = table.deepcopy(filter)
+            filter = table.deepcopy(filter),
+            defines = table.deepcopy(lib.defines)
         });
     end
 
@@ -753,20 +767,24 @@ function depends(deps)
       return libs;
 	end
 
+	local depends_projects={};
 	local libs;
 	if type(deps) == "string" then
 	  libs = resolve_all({deps}, libs);
+	  table.insert(depends_projects, deps);
 	elseif deps.links then -- deps is table with links
 	  libs = resolve_all(deps.links, libs, deps.filter);
 	else
 	  for _, dep in pairs(deps) do
 	      if type(dep) == "string" then
 	        libs = resolve_all({dep}, libs);
+	        table.insert(depends_projects, dep);
 	      elseif dep.links then
 	        libs = resolve_all(dep.links, libs, dep.filter);
 	      end
 	  end
 	end
+	dependbuilds(depends_projects);
 
 	for _,lib in pairs(libs) do
     	filter(lib.filter);
@@ -776,8 +794,16 @@ function depends(deps)
 		if lib.libdirs then
 			libdirs(lib.libdirs);
 		end
+		if lib.defines then
+			defines(lib.defines);
+		end
 		if lib.links and _PROJECT.category ~= PROJECT_CATEGORY_STATIC then
-			links(lib.links);
+			local filters = "*";
+			if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
+				filters = "dll-*"
+			end
+			configuration {filters} links(lib.links);
+			configuration {}
 		end
 
 		function resolve_one_cmd(cmd)

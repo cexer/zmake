@@ -17,7 +17,7 @@ library("boost", {
     }
 });
 
-
+--[[
 library("qbase", {
 	includedirs = {
 		"${QFRAMEWORK3}/include"
@@ -55,3 +55,4 @@ library("qxml", {
 	},
 	depends = {"qbase"}
 });
+]]--

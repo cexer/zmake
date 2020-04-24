@@ -247,6 +247,40 @@ function get_compiler_name_or_empty()
 	end
 end
 
+function get_lib_extension()
+	if os.target() == "windows" then
+		return ".lib";
+	else
+		return ".a"
+	end
+end
+
+function get_lib_prefix()
+	if os.target() == "windows" then
+		return "";
+	else
+		return "lib"
+	end
+end
+
+function get_dll_extension()
+	if os.target() == "windows" then
+		return ".dll";
+	elseif os.target() == "macosx" then
+		return ".dylib";
+	else
+		return ".so"
+	end
+end
+
+function get_dll_prefix()
+	if os.target() == "windows" then
+		return "";
+	else
+		return "lib"
+	end
+end
+
 -- replace tokens to valid premake style tokens
 local function resolve_tokens(strings, isimp, rt)
 	function resolve_one(v)
@@ -269,8 +303,10 @@ local function resolve_tokens(strings, isimp, rt)
 			v = v:gsub("{%-s}", "%%{iif(cfg.buildtarget.suffix:find('s'), 's', '')}");
 			v = v:gsub("{%-sd}", "%%{cfg.buildtarget.suffix}");
 		end
-		v = v:gsub("{.lib}", "%%{iif(_ACTION:find('vs20'), '.lib', '.a')}");
-		v = v:gsub("{.dll}", "%%{iif(cfg.system == 'windows', '.dll', '.so')}");
+		v = v:gsub("{libprefix}", get_lib_prefix());
+		v = v:gsub("{.lib}", get_lib_extension());
+		v = v:gsub("{dllprefix}", get_dll_prefix);
+		v = v:gsub("{.dll}", get_dll_extension);
 		v = v:gsub("{arch}", "%%{cfg.architecture}");
 		v = v:gsub("{os}", "%%{cfg.system}");
 		v = v:gsub("{cc}", get_compiler_name());

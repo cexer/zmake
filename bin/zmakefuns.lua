@@ -122,13 +122,12 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	configuration {"*-debug"}  
 		olddefines {"_DEBUG"};
 		oldruntime("Debug");
+		optimize("Off");
 		symbols("On");
-		--flags("Symbols");
 	configuration {"*-release"} 
 		olddefines {"NDEBUG"}; 
 		oldruntime("Release");
-		optimize("Speed"); 
-		--flags("Optimize");
+		optimize("Speed");
 	configuration {};
 
 	if os.get() ~= "windows" then
@@ -244,7 +243,7 @@ function get_compiler_name_or_empty()
 	if cc == 'vs2008' then
 		return '';
 	else
-		return cc;
+		return "-" .. cc;
 	end
 end
 
@@ -252,6 +251,7 @@ end
 local function resolve_tokens(strings, isimp, rt)
 	function resolve_one(v)
 		print("origin: " .. v);
+		v = v:gsub("{slndir}", "%%{wks.location}");
 		v = v:gsub("{bindir}", "%%{wks.location}/bin/");
 		v = v:gsub("{libdir}", "%%{wks.location}/lib/{os}-{arch}");
 		--v = v:gsub("%-", "-");
@@ -272,7 +272,6 @@ local function resolve_tokens(strings, isimp, rt)
 		v = v:gsub("{.lib}", "%%{iif(_ACTION:find('vs20'), '.lib', '.a')}");
 		v = v:gsub("{.dll}", "%%{iif(cfg.system == 'windows', '.dll', '.so')}");
 		v = v:gsub("{arch}", "%%{cfg.architecture}");
-		v = v:gsub("{os}", "%%{cfg.system}");
 		v = v:gsub("{os}", "%%{cfg.system}");
 		v = v:gsub("{cc}", get_compiler_name());
 		v = v:gsub("{%-cc}", get_compiler_name_or_empty());
@@ -514,11 +513,10 @@ end
 -- set build target file name
 function targetname(name)
 	if not name then
-		name = _PROJECT.name;
+		name = _PROJECT.name .. "{-cc}";
 	end
 
-	local fullname = name .. "{-cc}";
-	fullname = resolve_tokens(fullname);
+	local fullname = resolve_tokens(name);
 	oldtargetname(fullname);
 
     _PROJECT.targetname = fullname;
@@ -813,7 +811,9 @@ function depends(deps)
     			local from = resolve_tokens(cmd.from);
     			exec = "{COPY} ".. from .. " " .. to;
     		end
-    		return exec;
+    		local ret = table.deepcopy(cmd);
+    		ret.fixed = exec;
+    		return ret;
 		end
 		function resolve_all_cmds(cmds)
     		local execs = {}
@@ -822,14 +822,22 @@ function depends(deps)
     		end
     		return execs;
 		end
-		
+
 		if lib.postbuildcmds then
     		local cmds = resolve_all_cmds(lib.postbuildcmds);
-			postbuildcmds(cmds);
+    		for _, cmd in ipairs(cmds) do
+    			if (cmd.filter) then filter(cmd.filter); end
+				postbuildcmds({cmd.fixed});
+				if (cmd.filter) then filter{}; end
+    		end
 		end
 		if lib.prebuildcmds then
     		local cmds = resolve_all_cmds(lib.prebuildcmds);
-			prebuildcmds(cmds);
+    		for _, cmd in ipairs(cmds) do
+	    		if (cmd.filter) then filter(cmd.filter); end
+				prebuildcmds({cmd.fixed});
+				if (cmd.filter) then filter{}; end
+    		end
 		end
 		filter{};
 	end

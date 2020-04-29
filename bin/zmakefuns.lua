@@ -109,7 +109,13 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 
 	-- configurations
 	configurations {"dll-debug", "dll-release", "lib-debug", "lib-release"};
-	platforms {"x32", "x64"};
+
+	-- platforms
+	if (os.target() ~= "macosx") then
+		platforms {"x32", "x64"};
+	else
+		platforms {"x64"};
+	end
 
 	-- platform/architecture
 	if os.get() == "windows" then
@@ -284,7 +290,7 @@ end
 -- replace tokens to valid premake style tokens
 local function resolve_tokens(strings, isimp, rt)
 	function resolve_one(v)
-		print("origin: " .. v);
+		local originv = v;
 		v = v:gsub("{slndir}", "%%{wks.location}");
 		v = v:gsub("{bindir}", "%%{wks.location}/bin/");
 		v = v:gsub("{libdir}", "%%{wks.location}/lib/{os}-{arch}");
@@ -315,7 +321,7 @@ local function resolve_tokens(strings, isimp, rt)
 		v = v:gsub("{outdir}", "%%{cfg.buildtarget.directory}");
 		v = v:gsub("{outpath}", "%%{cfg.buildtarget.relpath}");
 		v = resolve_envs(v);
-		print("resolved: " .. v);
+		print("resolved: " .. originv .. " -> " .. v);
 		return v;
 	end
 

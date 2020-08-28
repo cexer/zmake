@@ -100,6 +100,7 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	language("c++");
 	location("");
 	oldobjdir("tmpdir");
+	flags {"NoMinimalRebuild"};
 
 	--if _ACTION == "vs2017" then
 	--	oldfilename (name);
@@ -118,7 +119,7 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	end
 
 	-- platform/architecture
-	if os.get() == "windows" then
+	if os.target() == "windows" then
 		olddefines {"_WIN32", "WIN32", "_ATL_XP_TARGETING"};
 		filter {"platforms:x64"} 
 			olddefines {"_WIN64", "WIN64"};
@@ -130,13 +131,17 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 		oldruntime("Debug");
 		optimize("Off");
 		symbols("On");
-	configuration {"*-release"} 
+		editAndContinue("Off")
+		debugformat("Default");
+	configuration {"*-release"}  
 		olddefines {"NDEBUG"}; 
 		oldruntime("Release");
 		optimize("Speed");
+		editAndContinue("Off")
+		debugformat("Default");
 	configuration {};
 
-	if os.get() ~= "windows" then
+	if os.target() ~= "windows" then
 		buildoptions { "-fdeclspec" };
 	end
 
@@ -200,18 +205,22 @@ function runtime(rt)
 	if _PROJECT.category == PROJECT_CATEGORY_SHARED then
 		configuration {"*"} 
 			olddefines { _PROJECT.macroprefix .. "_SHARED" }; 
-			flags { rt or "StaticRuntime" };
+			--flags { rt or "StaticRuntime" };
+			staticruntime "Off";
 	elseif _PROJECT.category == PROJECT_CATEGORY_STATIC then
 		configuration {"*"} 
 			olddefines { _PROJECT.macroprefix .. "_STATIC"}; 
-			flags { rt or "StaticRuntime" };
+			--flags { rt or "StaticRuntime" };
+			staticruntime "On";
 	else
 		configuration {"dll-*"} 
 			olddefines { _PROJECT.macroprefix .. "_SHARED"}; 
-			flags { rt or "StaticRuntime" };
+			--flags { rt or "StaticRuntime" };
+			staticruntime "Off";
 		configuration {"lib-*"} 
 			olddefines { _PROJECT.macroprefix .. "_STATIC"}; 
-			flags { rt or "StaticRuntime" };
+			--flags { rt or "StaticRuntime" };
+			staticruntime "On";
 		configuration{};
 	end
 end
@@ -337,6 +346,7 @@ end
 
 
 --local lfs = assert(package.loadlib("lfs.dll", "luaopen_lfs"))();
+local lfs = require("lfs");
 
 -- set project category
 function category(name)

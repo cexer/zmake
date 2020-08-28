@@ -431,7 +431,7 @@
 	------------
 
 	m.elements.VCCLCompilerTool = function(cfg, toolset)
-		if not toolset then
+		if true then
 			-- not a custom tool, use the standard set of attributes
 			return {
 				m.customBuildTool,
@@ -1006,7 +1006,8 @@
 	function m.debugInformationFormat(cfg, toolset)
 		local prjcfg, filecfg = config.normalize(cfg)
 		if not filecfg then
-			local fmt = iif(toolset, "0", m.symbols(cfg))
+			--local fmt = iif(toolset, "0", m.symbols(cfg))
+      local fmt = m.symbols(cfg);
 			p.w('DebugInformationFormat="%s"', fmt)
 		end
 	end
@@ -1141,9 +1142,9 @@
 
 
 	function m.generateDebugInformation(cfg, toolset)
-		if not toolset then
+		--if not toolset then
 			p.w('GenerateDebugInformation="%s"', tostring(m.symbols(cfg) ~= 0))
-		end
+		--end
 	end
 
 
@@ -1357,14 +1358,14 @@
 
 
 	function m.programDatabaseFile(cfg, toolset)
-		if toolset then
+		if false then
 			p.w('ProgramDatabaseFile=""')
 		end
 	end
 
 
 	function m.programDataBaseFileName(cfg, toolset)
-		if toolset then
+		if false then
 			p.w('ProgramDataBaseFileName=""')
 		end
 	end

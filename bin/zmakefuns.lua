@@ -100,7 +100,11 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	language("c++");
 	location("");
 	oldobjdir("tmpdir");
-	flags {"NoMinimalRebuild"};
+
+	-- symbols
+	symbols("On");
+	editAndContinue("Off")
+	debugformat("Default");
 
 	--if _ACTION == "vs2017" then
 	--	oldfilename (name);
@@ -130,15 +134,11 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 		olddefines {"_DEBUG"};
 		oldruntime("Debug");
 		optimize("Off");
-		symbols("On");
-		editAndContinue("Off")
-		debugformat("Default");
 	configuration {"*-release"}  
 		olddefines {"NDEBUG"}; 
 		oldruntime("Release");
 		optimize("Speed");
-		editAndContinue("Off")
-		debugformat("Default");
+
 	configuration {};
 
 	if os.target() ~= "windows" then

@@ -1,0 +1,6 @@
+#!/bin/bash
+curdir=$(cd "$(dirname "$0")";pwd)
+"$curdir/premake5.mac" --projdir="$(pwd)" --file="$(pwd)/zmake.lua" --systemscript="$curdir/zmakefuns.lua" $*
+
+
+

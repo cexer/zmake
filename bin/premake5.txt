@@ -1,0 +1,66 @@
+Premake 5.0.0-dev, a build script generator
+Copyright (C) 2002-2020 Jason Perkins and the Premake Project
+Lua 5.3 Lua 5.3.5  Copyright (C) 1994-2018 Lua.org, PUC-Rio
+
+Usage: premake5 [options] action [arguments]
+
+OPTIONS - General
+
+ --debugger          Start MobDebug remote debugger. Works with ZeroBrane Studio
+ --fatal             Treat warnings from project scripts as errors
+ --file=FILE         Read FILE as a Premake script; default is 'premake5.lua'
+ --help              Display this information
+ --insecure          forfit SSH certification checks.
+ --interactive       Interactive command prompt
+ --os=VALUE          Generate files for a different operating system; one of:
+     aix              IBM AIX
+     android          Android
+     bsd              OpenBSD, NetBSD, or FreeBSD
+     haiku            Haiku
+     hurd             GNU/Hurd
+     ios              iOS
+     linux            Linux
+     macosx           Apple Mac OS X
+     solaris          Solaris
+     windows          Microsoft Windows
+
+ --scripts=PATH      Search for additional scripts on the given path
+ --systemscript=FILE Override default system script (premake5-system.lua)
+ --verbose           Generate extra debug text output
+ --version           Display version information
+
+OPTIONS - compilers
+
+ --cc=VALUE     Choose a C/C++ compiler set; one of:
+     clang       Clang (clang)
+     gcc         GNU GCC (gcc/g++)
+     mingw       MinGW GCC (gcc/g++)
+
+ --dc=VALUE     Choose a D compiler; one of:
+     dmd         Digital Mars (dmd)
+     gdc         GNU GDC (gdc)
+     ldc         LLVM LDC (ldc2)
+
+ --dotnet=VALUE Choose a .NET compiler set; one of:
+     mono        Novell Mono (mcs)
+     msnet       Microsoft .NET (csc)
+     pnet        Portable.NET (cscc)
+
+
+ACTIONS
+
+ clean             Remove all binaries and generated files
+ codelite          Generate CodeLite project files
+ gmake             Generate GNU makefiles for POSIX, MinGW, and Cygwin
+ gmake2            Generate GNU makefiles for POSIX, MinGW, and Cygwin
+ vs2005            Generate Visual Studio 2005 project files
+ vs2008            Generate Visual Studio 2008 project files
+ vs2010            Generate Visual Studio 2010 project files
+ vs2012            Generate Visual Studio 2012 project files
+ vs2013            Generate Visual Studio 2013 project files
+ vs2015            Generate Visual Studio 2015 project files
+ vs2017            Generate Visual Studio 2017 project files
+ vs2019            Generate Visual Studio 2019 project files
+ xcode4            Generate Apple Xcode 4 project files
+
+For additional information, see https://premake.github.io

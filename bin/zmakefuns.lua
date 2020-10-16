@@ -85,6 +85,15 @@ if not _OPTIONS["file"] then
 	_OPTIONS["file"] = "zmake.lua";
 end
 
+function get_project_filename(base)
+	if _ACTION:find("vs20") == 1 or os.target() == "windows" then
+		return string.format("%s-%s", base, _ACTION);
+	else
+		return string.format("%s-%s-%s", base, os.target(), _ACTION);
+	end
+end
+
+
 -- hook solution function
 function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	_SOLUTION = {};
@@ -106,11 +115,8 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	editAndContinue("Off")
 	debugformat("Default");
 
-	--if _ACTION == "vs2017" then
-	--	oldfilename (name);
-	--else
-		oldfilename (name .. "-" .. _ACTION);
-	--end
+	-- solution file name
+	oldfilename(get_project_filename(name));
 
 	-- configurations
 	configurations {"dll-debug", "dll-release", "lib-debug", "lib-release"};
@@ -124,7 +130,7 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 
 	-- platform/architecture
 	if os.target() == "windows" then
-		olddefines {"_WIN32", "WIN32", "_ATL_XP_TARGETING"};
+		olddefines {"_WIN32", "WIN32", "_ATL_XP_TARGETING", "UNICODE", "_UNICODE"};
 		filter {"platforms:x64"} 
 			olddefines {"_WIN64", "WIN64"};
 	end
@@ -232,7 +238,7 @@ local function resolve_envs(var)
 		local prefix = var:sub(1, b - 1);
 		local env = var:sub(b + 2, e - 1);
 		local suffix = var:sub(e + 1);
-	    if _ACTION:find("vs") or _ACTION:find("codeblocks") then
+	    if _ACTION:find("vs20")==1 or _ACTION == "codeblocks" then
 	        return prefix .. "$(" .. env .. ")" .. suffix;
 	    else    
 	        return prefix .. "${" .. env .. "}" .. suffix;
@@ -246,7 +252,7 @@ function get_compiler_name()
 	local cc = _OPTIONS["cc"];
 	if cc then
 		return cc;
-	elseif _ACTION:find("vs20") then
+	elseif _ACTION:find("vs20") == 1 then
 		return _ACTION
 	else
 		return "gcc";
@@ -552,7 +558,7 @@ function filename(name)
 	if name then
 		name = resolve_tokens(name);
 	else
-	    name = _PROJECT.name .. "-" .. _ACTION;
+		name = get_project_filename(_PROJECT.name);
     end
 
 	_PROJECT.filename = name;

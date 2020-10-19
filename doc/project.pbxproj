@@ -1,0 +1,1366 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 46;
+	objects = {
+
+		/* Begin PBXBuildFile section */
+		0EB32B46FC1ABDF89914B186 /* event_loop_default.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = F7C2D56E044D87E07F3253AE /* event_loop_default.cpp */ ;
+		};
+		174EA4D2FCE5AC04C02ABB12 /* event_loop_api_impl.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = C7BD0D3A21BE242CE9051B7A /* event_loop_api_impl.cpp */ ;
+		};
+		1789364C172C197E5180CC8C /* thread_base.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 542D8C14AB92FF065DA11A54 /* thread_base.cpp */ ;
+		};
+		1FDCF6F40D4489A6AA3E7D34 /* date_time_api_impl.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 6FB41B3C7C3ECDAEF723997C /* date_time_api_impl.cpp */ ;
+		};
+		3A1EF85F4A0424913677AE9F /* path_unix.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = C0E05E6762C9FA5959F10CA7 /* path_unix.cpp */ ;
+		};
+		66957B14DA7DF2C6FCCBA154 /* command_line.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = D3287B5C99B672CE07B8999C /* command_line.cpp */ ;
+		};
+		68EA4022370D93D4BE1BE662 /* path.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 4609408AA14A93FC74A4DECA /* path.cpp */ ;
+		};
+		72714A41BB108873DE3C4081 /* process_win32.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = F1E8B329E2E0211B4EE3A169 /* process_win32.cpp */ ;
+		};
+		7805A8C32AFBB2757C1E0F03 /* process_unix.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = B138AD8BA537F6FD2A230BCB /* process_unix.cpp */ ;
+		};
+		8B3B642C291C64DE009AAA6C /* allocator_impl.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 6ACB1CF42D8B7D668AC05B34 /* allocator_impl.cpp */ ;
+		};
+		8D1579AC27396EDED75F4FEC /* thread_api_impl.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 6DE1F574E23C3A66601FC3B4 /* thread_api_impl.cpp */ ;
+		};
+		9C1102F73634F829E65AD937 /* error_win32.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 516B657FC5C5AA7143A933BF /* error_win32.cpp */ ;
+		};
+		AE4054008D5D6E326966CA40 /* date_time.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 4C56DA88DEE4A47A47BD48C8 /* date_time.cpp */ ;
+		};
+		B522AC635303AD152A81F2A3 /* file_win32.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 1424552BD6E4B59D3419936B /* file_win32.cpp */ ;
+		};
+		B56A58EE4DB73EA07BFE3F2E /* log_impl.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 224D2A96669BD008A8C308D6 /* log_impl.cpp */ ;
+		};
+		B601DB7DA3696E2F406361BD /* thread_pthread.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 73DAC5A580657817FB4A43E5 /* thread_pthread.cpp */ ;
+		};
+		BF253527669AD0D90F5FDB67 /* text_codec_win32.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = E39AB5AFC23D5121771F53EF /* text_codec_win32.cpp */ ;
+		};
+		C14B15705F2C162236AA5BB0 /* error_api_impl.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = CB7FCFF88E40306AEB750E38 /* error_api_impl.cpp */ ;
+		};
+		CAEC957D68CD962F404BDBBD /* path_win32.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 101BE3A5D2DC4417301121E5 /* path_win32.cpp */ ;
+		};
+		D00163997776FF4B203C09D9 /* event_loop_win32.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = EAB82C01C95AC7737E3CCA41 /* event_loop_win32.cpp */ ;
+		};
+		D3175425E2FC8057CF700A65 /* file_unix.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = F813ECCD99FD88BF91249B0D /* file_unix.cpp */ ;
+		};
+		DB1A09538E101305DF326F93 /* thread_win32.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = CD9E3D1BC19D868D46889B5B /* thread_win32.cpp */ ;
+		};
+		F7BC281207A15444F414DE52 /* base_api_impl.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 1D26FE7ABF109A6CB637ACBA /* base_api_impl.cpp */ ;
+		};
+		FA418A3342E0C865660C8073 /* mutex_pthread.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = FCAEC8FBEDA636ED59A9B73B /* mutex_pthread.cpp */ ;
+		};
+		FBF7FE3CE03F066E642C347C /* error.cpp in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 4BA4EB047C88E2F68FA11944 /* error.cpp */ ;
+		};
+		/* End PBXBuildFile section */
+
+		/* Begin PBXFileReference section */
+		009091DF74EAD6D1F2CE601F /* config_unix.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = config_unix.h;
+			path = .. / include / zbase / backend / config_unix.h;
+			sourceTree = "<group>";
+		};
+		0576F92276999A142C604762 /* sprintf.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = sprintf.h;
+			path = .. / include / zbase / sprintf.h;
+			sourceTree = "<group>";
+		};
+		06525A21F749C813634D4861 /* mutex_pthread.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = mutex_pthread.h;
+			path = .. / include / zbase / backend / mutex_pthread.h;
+			sourceTree = "<group>";
+		};
+		07BC3B7E74E449F0767739BE /* string_map.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = string_map.h;
+			path = .. / include / zbase / string_map.h;
+			sourceTree = "<group>";
+		};
+		0A060FB652A54DE875D105F6 /* event_loop_default.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = event_loop_default.h;
+			path = .. / include / zbase / detail / event_loop_default.h;
+			sourceTree = "<group>";
+		};
+		0C1731C067775672A9BAF800 /* method_traits_template2.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = method_traits_template2.h;
+			path = .. / include / zbase / detail / method_traits_template2.h;
+			sourceTree = "<group>";
+		};
+		0E0900F7826345E90046CF37 /* mutex_win32.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = mutex_win32.h;
+			path = .. / include / zbase / backend / mutex_win32.h;
+			sourceTree = "<group>";
+		};
+		0FBC4400EED95E32CAE2BA40 /* error_base.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = error_base.h;
+			path = .. / include / zbase / detail / error_base.h;
+			sourceTree = "<group>";
+		};
+		101BE3A5D2DC4417301121E5 /* path_win32.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = path_win32.cpp;
+			path = .. / src / zbase / backend / path_win32.cpp;
+			sourceTree = "<group>";
+		};
+		1424552BD6E4B59D3419936B /* file_win32.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = file_win32.cpp;
+			path = .. / src / zbase / backend / file_win32.cpp;
+			sourceTree = "<group>";
+		};
+		148C4F33B675EB25AD9CFD73 /* file_unix.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = file_unix.h;
+			path = .. / include / zbase / backend / file_unix.h;
+			sourceTree = "<group>";
+		};
+		153D3BC282654A3483F83A02 /* comparable.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = comparable.h;
+			path = .. / include / zbase / comparable.h;
+			sourceTree = "<group>";
+		};
+		19AE60A2E03C58144E3E7EE2 /* error_api_impl.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = error_api_impl.h;
+			path = .. / src / zbase / error_api_impl.h;
+			sourceTree = "<group>";
+		};
+		1ADFE3498F3A283B0D1DB189 /* config_msvc.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = config_msvc.h;
+			path = .. / include / zbase / backend / config_msvc.h;
+			sourceTree = "<group>";
+		};
+		1D26FE7ABF109A6CB637ACBA /* base_api_impl.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = base_api_impl.cpp;
+			path = .. / src / zbase / base_api_impl.cpp;
+			sourceTree = "<group>";
+		};
+		21D21CD0B45FE6C21D388B10 /* type_list.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = type_list.h;
+			path = .. / include / zbase / type_list.h;
+			sourceTree = "<group>";
+		};
+		22469D5ED642B690B7F4F39E /* function_caller_template.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = function_caller_template.h;
+			path = .. / include / zbase / detail / function_caller_template.h;
+			sourceTree = "<group>";
+		};
+		224D2A96669BD008A8C308D6 /* log_impl.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = log_impl.cpp;
+			path = .. / src / zbase / log_impl.cpp;
+			sourceTree = "<group>";
+		};
+		2B14129D1F135C0FA3FE70DD /* config_win32.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = config_win32.h;
+			path = .. / include / zbase / backend / config_win32.h;
+			sourceTree = "<group>";
+		};
+		31C217E6E5BE3118C7706E26 /* function_traits_template.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = function_traits_template.h;
+			path = .. / include / zbase / detail / function_traits_template.h;
+			sourceTree = "<group>";
+		};
+		33866044247DCE3690814E84 /* event_loop_api_impl.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = event_loop_api_impl.h;
+			path = .. / src / zbase / event_loop_api_impl.h;
+			sourceTree = "<group>";
+		};
+		3390317EA4B2D2705A797FBE /* utility.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = utility.h;
+			path = .. / include / zbase / utility.h;
+			sourceTree = "<group>";
+		};
+		345D95BC65418DAE7859C3FC /* mutex.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = mutex.h;
+			path = .. / include / zbase / mutex.h;
+			sourceTree = "<group>";
+		};
+		36FDAFFA51CA1EAC559AB63A /* string_base.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = string_base.h;
+			path = .. / include / zbase / detail / string_base.h;
+			sourceTree = "<group>";
+		};
+		3939CCE62D391658B2242B26 /* date_time_api_impl.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = date_time_api_impl.h;
+			path = .. / src / zbase / date_time_api_impl.h;
+			sourceTree = "<group>";
+		};
+		39487882330A34F46D0936C2 /* config.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = config.h;
+			path = .. / include / zbase / config.h;
+			sourceTree = "<group>";
+		};
+		3DD061829535D4744743EFC2 /* release_ptr.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = release_ptr.h;
+			path = .. / include / zbase / release_ptr.h;
+			sourceTree = "<group>";
+		};
+		43B945863D7B01F8777A03C6 /* thread.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = thread.h;
+			path = .. / include / zbase / thread.h;
+			sourceTree = "<group>";
+		};
+		4609408AA14A93FC74A4DECA /* path.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = path.cpp;
+			path = .. / src / zbase / path.cpp;
+			sourceTree = "<group>";
+		};
+		4733E5228B828A94CDA9C362 /* function.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = function.h;
+			path = .. / include / zbase / function.h;
+			sourceTree = "<group>";
+		};
+		4B1DE18DED077D7FE42E8FCD /* path_unix.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = path_unix.h;
+			path = .. / include / zbase / backend / path_unix.h;
+			sourceTree = "<group>";
+		};
+		4BA4EB047C88E2F68FA11944 /* error.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = error.cpp;
+			path = .. / src / zbase / error.cpp;
+			sourceTree = "<group>";
+		};
+		4C56DA88DEE4A47A47BD48C8 /* date_time.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = date_time.cpp;
+			path = .. / src / zbase / date_time.cpp;
+			sourceTree = "<group>";
+		};
+		5100722EBE2880A0BFBB706E /* shared_ptr.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = shared_ptr.h;
+			path = .. / include / zbase / shared_ptr.h;
+			sourceTree = "<group>";
+		};
+		516B657FC5C5AA7143A933BF /* error_win32.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = error_win32.cpp;
+			path = .. / src / zbase / backend / error_win32.cpp;
+			sourceTree = "<group>";
+		};
+		542D8C14AB92FF065DA11A54 /* thread_base.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = thread_base.cpp;
+			path = .. / src / zbase / thread_base.cpp;
+			sourceTree = "<group>";
+		};
+		5FE5A89153E4F203D8D006D1 /* process_unix.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = process_unix.h;
+			path = .. / include / zbase / backend / process_unix.h;
+			sourceTree = "<group>";
+		};
+		6044AFA2230510148039EDE2 /* priority_queue.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = priority_queue.h;
+			path = .. / include / zbase / priority_queue.h;
+			sourceTree = "<group>";
+		};
+		6214C7305BD683A295D58570 /* atomic.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = atomic.h;
+			path = .. / include / zbase / atomic.h;
+			sourceTree = "<group>";
+		};
+		63135C3E04FCF830FC240A7E /* thread_api_impl.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = thread_api_impl.h;
+			path = .. / src / zbase / thread_api_impl.h;
+			sourceTree = "<group>";
+		};
+		6878D71AD5A0E58CD733D55A /* text_codec.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = text_codec.h;
+			path = .. / include / zbase / text_codec.h;
+			sourceTree = "<group>";
+		};
+		6ACB1CF42D8B7D668AC05B34 /* allocator_impl.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = allocator_impl.cpp;
+			path = .. / src / zbase / allocator_impl.cpp;
+			sourceTree = "<group>";
+		};
+		6C819840664354B2A0425680 /* log_impl.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = log_impl.h;
+			path = .. / src / zbase / log_impl.h;
+			sourceTree = "<group>";
+		};
+		6DE1F574E23C3A66601FC3B4 /* thread_api_impl.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = thread_api_impl.cpp;
+			path = .. / src / zbase / thread_api_impl.cpp;
+			sourceTree = "<group>";
+		};
+		6FB41B3C7C3ECDAEF723997C /* date_time_api_impl.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = date_time_api_impl.cpp;
+			path = .. / src / zbase / date_time_api_impl.cpp;
+			sourceTree = "<group>";
+		};
+		721ADDECDF42EC5EE0D5DC2C /* event_loop.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = event_loop.h;
+			path = .. / include / zbase / event_loop.h;
+			sourceTree = "<group>";
+		};
+		73DAC5A580657817FB4A43E5 /* thread_pthread.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = thread_pthread.cpp;
+			path = .. / src / zbase / backend / thread_pthread.cpp;
+			sourceTree = "<group>";
+		};
+		76B6B60EEB10FB0068F4844E /* function_traits.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = function_traits.h;
+			path = .. / include / zbase / function_traits.h;
+			sourceTree = "<group>";
+		};
+		77B97242159A72F4ED18B882 /* event_loop_base.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = event_loop_base.h;
+			path = .. / include / zbase / detail / event_loop_base.h;
+			sourceTree = "<group>";
+		};
+		78C76A2AD02CDD1C823AF86A /* api_service.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = api_service.h;
+			path = .. / include / zbase / api_service.h;
+			sourceTree = "<group>";
+		};
+		7C8D7F1E431B7690B11D9D5E /* allocator_impl.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = allocator_impl.h;
+			path = .. / src / zbase / allocator_impl.h;
+			sourceTree = "<group>";
+		};
+		7D48FCA4770AB916B109BAE4 /* string.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = string.h;
+			path = .. / include / zbase / string.h;
+			sourceTree = "<group>";
+		};
+		7E23B19ED983D6501BC777DE /* method_traits_template1.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = method_traits_template1.h;
+			path = .. / include / zbase / detail / method_traits_template1.h;
+			sourceTree = "<group>";
+		};
+		7F503086D6B5A37888C3BEC6 /* type_traits.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = type_traits.h;
+			path = .. / include / zbase / type_traits.h;
+			sourceTree = "<group>";
+		};
+		83E72A8F74DE9881E0E218CF /* process_win32.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = process_win32.h;
+			path = .. / include / zbase / backend / process_win32.h;
+			sourceTree = "<group>";
+		};
+		83E8EED99073A14B0B586D19 /* text_codec_win32.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = text_codec_win32.h;
+			path = .. / src / zbase / backend / text_codec_win32.h;
+			sourceTree = "<group>";
+		};
+		8AD78C1A3DCD95CC8EEFF25A /* function_template.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = function_template.h;
+			path = .. / include / zbase / detail / function_template.h;
+			sourceTree = "<group>";
+		};
+		8F821396EAC36708BE1DB1D6 /* file.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = file.h;
+			path = .. / include / zbase / file.h;
+			sourceTree = "<group>";
+		};
+		90F31670EC3469E2BF8EB4B0 /* bind.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = bind.h;
+			path = .. / include / zbase / bind.h;
+			sourceTree = "<group>";
+		};
+		946D0AA8324E0B5A09CC50E8 /* function_caller.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = function_caller.h;
+			path = .. / include / zbase / detail / function_caller.h;
+			sourceTree = "<group>";
+		};
+		98A440C77746DC392C28DF07 /* event_loop_win32.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = event_loop_win32.h;
+			path = .. / include / zbase / backend / event_loop_win32.h;
+			sourceTree = "<group>";
+		};
+		9CCB42AE09F351200B8640EE /* computable.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = computable.h;
+			path = .. / include / zbase / computable.h;
+			sourceTree = "<group>";
+		};
+		9D7E22140EA0C306C4677054 /* process.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = process.h;
+			path = .. / include / zbase / process.h;
+			sourceTree = "<group>";
+		};
+		A45AC621985A0F931D452461 /* thread_win32.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = thread_win32.h;
+			path = .. / include / zbase / backend / thread_win32.h;
+			sourceTree = "<group>";
+		};
+		A483B1C0E8D257322AF99000 /* platform.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = platform.h;
+			path = .. / include / zbase / platform.h;
+			sourceTree = "<group>";
+		};
+		A844BC9003861002D6E05AD0 /* path.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = path.h;
+			path = .. / include / zbase / path.h;
+			sourceTree = "<group>";
+		};
+		AE92D20C05F844FEB806604C /* smart_types.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = smart_types.h;
+			path = .. / include / zbase / smart_types.h;
+			sourceTree = "<group>";
+		};
+		B138AD8BA537F6FD2A230BCB /* process_unix.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = process_unix.cpp;
+			path = .. / src / zbase / backend / process_unix.cpp;
+			sourceTree = "<group>";
+		};
+		B749BC1AE6DB8B0CC1E8CA5A /* log.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = log.h;
+			path = .. / include / zbase / log.h;
+			sourceTree = "<group>";
+		};
+		B9B65FFEEA9A57F0FDB28E3E /* deque.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = deque.h;
+			path = .. / include / zbase / deque.h;
+			sourceTree = "<group>";
+		};
+		BB839E12EB156D04C622AC52 /* map.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = map.h;
+			path = .. / include / zbase / map.h;
+			sourceTree = "<group>";
+		};
+		BBE07E8E1721D200EA7C1CCE /* list.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = list.h;
+			path = .. / include / zbase / list.h;
+			sourceTree = "<group>";
+		};
+		BCF62F9CD7C29E4EDB9335DC /* thread_base.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = thread_base.h;
+			path = .. / include / zbase / detail / thread_base.h;
+			sourceTree = "<group>";
+		};
+		C0E05E6762C9FA5959F10CA7 /* path_unix.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = path_unix.cpp;
+			path = .. / src / zbase / backend / path_unix.cpp;
+			sourceTree = "<group>";
+		};
+		C279F4AC5AC6DA5E890DDAEC /* file_base.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = file_base.h;
+			path = .. / include / zbase / detail / file_base.h;
+			sourceTree = "<group>";
+		};
+		C4627E228AF07594F8F29C62 /* command_line.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = command_line.h;
+			path = .. / include / zbase / command_line.h;
+			sourceTree = "<group>";
+		};
+		C7BD0D3A21BE242CE9051B7A /* event_loop_api_impl.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = event_loop_api_impl.cpp;
+			path = .. / src / zbase / event_loop_api_impl.cpp;
+			sourceTree = "<group>";
+		};
+		CB7FCFF88E40306AEB750E38 /* error_api_impl.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = error_api_impl.cpp;
+			path = .. / src / zbase / error_api_impl.cpp;
+			sourceTree = "<group>";
+		};
+		CD5B1FF1901B8063ED505E31 /* file_win32.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = file_win32.h;
+			path = .. / include / zbase / backend / file_win32.h;
+			sourceTree = "<group>";
+		};
+		CD9E3D1BC19D868D46889B5B /* thread_win32.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = thread_win32.cpp;
+			path = .. / src / zbase / backend / thread_win32.cpp;
+			sourceTree = "<group>";
+		};
+		D3287B5C99B672CE07B8999C /* command_line.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = command_line.cpp;
+			path = .. / src / zbase / command_line.cpp;
+			sourceTree = "<group>";
+		};
+		D93BB880347D0BF207D756C0 /* main.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = main.h;
+			path = .. / include / zbase / main.h;
+			sourceTree = "<group>";
+		};
+		D9ECB9E54E46FED7CC2A8825 /* error_win32.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = error_win32.h;
+			path = .. / include / zbase / backend / error_win32.h;
+			sourceTree = "<group>";
+		};
+		DEC321162311C6886538FF56 /* inttypes.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = inttypes.h;
+			path = .. / include / zbase / inttypes.h;
+			sourceTree = "<group>";
+		};
+		E003576E72912160DB69C5AE /* date_time.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = date_time.h;
+			path = .. / include / zbase / date_time.h;
+			sourceTree = "<group>";
+		};
+		E39AB5AFC23D5121771F53EF /* text_codec_win32.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = text_codec_win32.cpp;
+			path = .. / src / zbase / backend / text_codec_win32.cpp;
+			sourceTree = "<group>";
+		};
+		E60286862A512BF86C7864C6 /* api_user.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = api_user.h;
+			path = .. / include / zbase / api_user.h;
+			sourceTree = "<group>";
+		};
+		E7B8277AF79D53ACE410DDBA /* method_wrapper.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = method_wrapper.h;
+			path = .. / include / zbase / detail / method_wrapper.h;
+			sourceTree = "<group>";
+		};
+		E863DB5CE22597CE1C24999C /* vector.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = vector.h;
+			path = .. / include / zbase / vector.h;
+			sourceTree = "<group>";
+		};
+		E9C6E1ABF651941D71365FEB /* thread_pthread.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = thread_pthread.h;
+			path = .. / include / zbase / backend / thread_pthread.h;
+			sourceTree = "<group>";
+		};
+		EA5660CA19E82FBCF4F56F0A /* api.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = api.h;
+			path = .. / include / zbase / api.h;
+			sourceTree = "<group>";
+		};
+		EAB82C01C95AC7737E3CCA41 /* event_loop_win32.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = event_loop_win32.cpp;
+			path = .. / src / zbase / backend / event_loop_win32.cpp;
+			sourceTree = "<group>";
+		};
+		EF1BA7EA1FFF9FDC3317D62A /* error.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = error.h;
+			path = .. / include / zbase / error.h;
+			sourceTree = "<group>";
+		};
+		EFBBE72BB27C479D0FB1256B /* path_win32.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = path_win32.h;
+			path = .. / include / zbase / backend / path_win32.h;
+			sourceTree = "<group>";
+		};
+		F05CE4FCDDC477AE7ABE6B3C /* function_trais_base.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = function_trais_base.h;
+			path = .. / include / zbase / detail / function_trais_base.h;
+			sourceTree = "<group>";
+		};
+		F1518651B411E6C31146C491 /* config_gcc.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = config_gcc.h;
+			path = .. / include / zbase / backend / config_gcc.h;
+			sourceTree = "<group>";
+		};
+		F1E8B329E2E0211B4EE3A169 /* process_win32.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = process_win32.cpp;
+			path = .. / src / zbase / backend / process_win32.cpp;
+			sourceTree = "<group>";
+		};
+		F4AAD49887389E8AF01142D8 /* allocator.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = allocator.h;
+			path = .. / include / zbase / allocator.h;
+			sourceTree = "<group>";
+		};
+		FFFF07C225DF56B400EC9602 /* dll-debug libzbase-gcc-d.dylib */ = {
+			isa = PBXFileReference;
+			explicitFileType = "compiled.mach-o.dylib";
+			includeInIndex = 0;
+			path = "libzbase-gcc-d.dylib";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FFFF17C225DF56B400EC9602 /* dll-releae libzbase-gcc.dylib */ = {
+			isa = PBXFileReference;
+			explicitFileType = "compiled.mach-o.dylib";
+			includeInIndex = 0;
+			path = "libzbase-gcc.dylib";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FFFF27C225DF56B400EC9602 /* lib-debug libzbase-gcc-sd.a */ = {
+			isa = PBXFileReference;
+			explicitFileType = "archive.ar";
+			includeInIndex = 0;
+			path = "libzbase-gcc-sd.a";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FFFF37C225DF56B400EC9602 /* lib-release libzbase-gcc-s.a */ = {
+			isa = PBXFileReference;
+			explicitFileType = "archive.ar";
+			includeInIndex = 0;
+			path = "libzbase-gcc-s.a";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F6535CAE25E52BA000F26AEE /* set.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = set.h;
+			path = .. / include / zbase / set.h;
+			sourceTree = "<group>";
+		};
+		F7C2D56E044D87E07F3253AE /* event_loop_default.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = event_loop_default.cpp;
+			path = .. / src / zbase / event_loop_default.cpp;
+			sourceTree = "<group>";
+		};
+		F813ECCD99FD88BF91249B0D /* file_unix.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = file_unix.cpp;
+			path = .. / src / zbase / backend / file_unix.cpp;
+			sourceTree = "<group>";
+		};
+		F998D8202A7CD0123D950660 /* queue.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = queue.h;
+			path = .. / include / zbase / queue.h;
+			sourceTree = "<group>";
+		};
+		F9D3A3661B6FE09813E679A6 /* function_pointer_traits_template.h */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = function_pointer_traits_template.h;
+			path = .. / include / zbase / detail / function_pointer_traits_template.h;
+			sourceTree = "<group>";
+		};
+		FCAEC8FBEDA636ED59A9B73B /* mutex_pthread.cpp */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = mutex_pthread.cpp;
+			path = .. / src / zbase / backend / mutex_pthread.cpp;
+			sourceTree = "<group>";
+		};
+		/* End PBXFileReference section */
+
+		/* Begin PBXFrameworksBuildPhase section */
+		C3BDEC32AEAA1224F68FDA72 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		/* End PBXFrameworksBuildPhase section */
+
+		/* Begin PBXGroup section */
+		56927A816DA515B35DC110C1 /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				0FBC4400EED95E32CAE2BA40 /* error_base.h */ ,
+				77B97242159A72F4ED18B882 /* event_loop_base.h */ ,
+				0A060FB652A54DE875D105F6 /* event_loop_default.h */ ,
+				C279F4AC5AC6DA5E890DDAEC /* file_base.h */ ,
+				946D0AA8324E0B5A09CC50E8 /* function_caller.h */ ,
+				22469D5ED642B690B7F4F39E /* function_caller_template.h */ ,
+				F9D3A3661B6FE09813E679A6 /* function_pointer_traits_template.h */ ,
+				8AD78C1A3DCD95CC8EEFF25A /* function_template.h */ ,
+				F05CE4FCDDC477AE7ABE6B3C /* function_trais_base.h */ ,
+				31C217E6E5BE3118C7706E26 /* function_traits_template.h */ ,
+				7E23B19ED983D6501BC777DE /* method_traits_template1.h */ ,
+				0C1731C067775672A9BAF800 /* method_traits_template2.h */ ,
+				E7B8277AF79D53ACE410DDBA /* method_wrapper.h */ ,
+				36FDAFFA51CA1EAC559AB63A /* string_base.h */ ,
+				BCF62F9CD7C29E4EDB9335DC /* thread_base.h */ ,
+			);
+			name = detail;
+			sourceTree = "<group>";
+		};
+		5775D4184366DFCA959E7A58 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				6ACB1CF42D8B7D668AC05B34 /* allocator_impl.cpp */ ,
+				7C8D7F1E431B7690B11D9D5E /* allocator_impl.h */ ,
+				63555BAF06438261956961EF /* backend */ ,
+				1D26FE7ABF109A6CB637ACBA /* base_api_impl.cpp */ ,
+				D3287B5C99B672CE07B8999C /* command_line.cpp */ ,
+				4C56DA88DEE4A47A47BD48C8 /* date_time.cpp */ ,
+				6FB41B3C7C3ECDAEF723997C /* date_time_api_impl.cpp */ ,
+				3939CCE62D391658B2242B26 /* date_time_api_impl.h */ ,
+				4BA4EB047C88E2F68FA11944 /* error.cpp */ ,
+				CB7FCFF88E40306AEB750E38 /* error_api_impl.cpp */ ,
+				19AE60A2E03C58144E3E7EE2 /* error_api_impl.h */ ,
+				C7BD0D3A21BE242CE9051B7A /* event_loop_api_impl.cpp */ ,
+				33866044247DCE3690814E84 /* event_loop_api_impl.h */ ,
+				F7C2D56E044D87E07F3253AE /* event_loop_default.cpp */ ,
+				224D2A96669BD008A8C308D6 /* log_impl.cpp */ ,
+				6C819840664354B2A0425680 /* log_impl.h */ ,
+				4609408AA14A93FC74A4DECA /* path.cpp */ ,
+				6DE1F574E23C3A66601FC3B4 /* thread_api_impl.cpp */ ,
+				63135C3E04FCF830FC240A7E /* thread_api_impl.h */ ,
+				542D8C14AB92FF065DA11A54 /* thread_base.cpp */ ,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		5E8C725002DF100215175890 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				F4AAD49887389E8AF01142D8 /* allocator.h */ ,
+				EA5660CA19E82FBCF4F56F0A /* api.h */ ,
+				78C76A2AD02CDD1C823AF86A /* api_service.h */ ,
+				E60286862A512BF86C7864C6 /* api_user.h */ ,
+				6214C7305BD683A295D58570 /* atomic.h */ ,
+				E28C538B08B2833D6FB979CB /* backend */ ,
+				90F31670EC3469E2BF8EB4B0 /* bind.h */ ,
+				C4627E228AF07594F8F29C62 /* command_line.h */ ,
+				153D3BC282654A3483F83A02 /* comparable.h */ ,
+				9CCB42AE09F351200B8640EE /* computable.h */ ,
+				39487882330A34F46D0936C2 /* config.h */ ,
+				F1518651B411E6C31146C491 /* config_gcc.h */ ,
+				E003576E72912160DB69C5AE /* date_time.h */ ,
+				B9B65FFEEA9A57F0FDB28E3E /* deque.h */ ,
+				56927A816DA515B35DC110C1 /* detail */ ,
+				EF1BA7EA1FFF9FDC3317D62A /* error.h */ ,
+				721ADDECDF42EC5EE0D5DC2C /* event_loop.h */ ,
+				8F821396EAC36708BE1DB1D6 /* file.h */ ,
+				4733E5228B828A94CDA9C362 /* function.h */ ,
+				76B6B60EEB10FB0068F4844E /* function_traits.h */ ,
+				DEC321162311C6886538FF56 /* inttypes.h */ ,
+				BBE07E8E1721D200EA7C1CCE /* list.h */ ,
+				B749BC1AE6DB8B0CC1E8CA5A /* log.h */ ,
+				D93BB880347D0BF207D756C0 /* main.h */ ,
+				BB839E12EB156D04C622AC52 /* map.h */ ,
+				345D95BC65418DAE7859C3FC /* mutex.h */ ,
+				A844BC9003861002D6E05AD0 /* path.h */ ,
+				A483B1C0E8D257322AF99000 /* platform.h */ ,
+				6044AFA2230510148039EDE2 /* priority_queue.h */ ,
+				9D7E22140EA0C306C4677054 /* process.h */ ,
+				F998D8202A7CD0123D950660 /* queue.h */ ,
+				3DD061829535D4744743EFC2 /* release_ptr.h */ ,
+				F6535CAE25E52BA000F26AEE /* set.h */ ,
+				5100722EBE2880A0BFBB706E /* shared_ptr.h */ ,
+				AE92D20C05F844FEB806604C /* smart_types.h */ ,
+				0576F92276999A142C604762 /* sprintf.h */ ,
+				7D48FCA4770AB916B109BAE4 /* string.h */ ,
+				07BC3B7E74E449F0767739BE /* string_map.h */ ,
+				6878D71AD5A0E58CD733D55A /* text_codec.h */ ,
+				43B945863D7B01F8777A03C6 /* thread.h */ ,
+				21D21CD0B45FE6C21D388B10 /* type_list.h */ ,
+				7F503086D6B5A37888C3BEC6 /* type_traits.h */ ,
+				3390317EA4B2D2705A797FBE /* utility.h */ ,
+				E863DB5CE22597CE1C24999C /* vector.h */ ,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		63555BAF06438261956961EF /* backend */ = {
+			isa = PBXGroup;
+			children = (
+				516B657FC5C5AA7143A933BF /* error_win32.cpp */ ,
+				EAB82C01C95AC7737E3CCA41 /* event_loop_win32.cpp */ ,
+				F813ECCD99FD88BF91249B0D /* file_unix.cpp */ ,
+				1424552BD6E4B59D3419936B /* file_win32.cpp */ ,
+				FCAEC8FBEDA636ED59A9B73B /* mutex_pthread.cpp */ ,
+				C0E05E6762C9FA5959F10CA7 /* path_unix.cpp */ ,
+				101BE3A5D2DC4417301121E5 /* path_win32.cpp */ ,
+				B138AD8BA537F6FD2A230BCB /* process_unix.cpp */ ,
+				F1E8B329E2E0211B4EE3A169 /* process_win32.cpp */ ,
+				E39AB5AFC23D5121771F53EF /* text_codec_win32.cpp */ ,
+				83E8EED99073A14B0B586D19 /* text_codec_win32.h */ ,
+				73DAC5A580657817FB4A43E5 /* thread_pthread.cpp */ ,
+				CD9E3D1BC19D868D46889B5B /* thread_win32.cpp */ ,
+			);
+			name = backend;
+			sourceTree = "<group>";
+		};
+		A6C936B49B3FADE6EA134CF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FFFF07C225DF56B400EC9602 /* libzbase-gcc-d.dylib */ ,
+				FFFF17C225DF56B400EC9602 /* libzbase-gcc.dylib */,
+				FFFF27C225DF56B400EC9602 /* libzbase-gcc-sd.a */,
+				FFFF37C225DF56B400EC9602 /* libzbase-gcc-s.a */
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E28C538B08B2833D6FB979CB /* backend */ = {
+			isa = PBXGroup;
+			children = (
+				1ADFE3498F3A283B0D1DB189 /* config_msvc.h */ ,
+				009091DF74EAD6D1F2CE601F /* config_unix.h */ ,
+				2B14129D1F135C0FA3FE70DD /* config_win32.h */ ,
+				D9ECB9E54E46FED7CC2A8825 /* error_win32.h */ ,
+				98A440C77746DC392C28DF07 /* event_loop_win32.h */ ,
+				148C4F33B675EB25AD9CFD73 /* file_unix.h */ ,
+				CD5B1FF1901B8063ED505E31 /* file_win32.h */ ,
+				06525A21F749C813634D4861 /* mutex_pthread.h */ ,
+				0E0900F7826345E90046CF37 /* mutex_win32.h */ ,
+				4B1DE18DED077D7FE42E8FCD /* path_unix.h */ ,
+				EFBBE72BB27C479D0FB1256B /* path_win32.h */ ,
+				5FE5A89153E4F203D8D006D1 /* process_unix.h */ ,
+				83E72A8F74DE9881E0E218CF /* process_win32.h */ ,
+				E9C6E1ABF651941D71365FEB /* thread_pthread.h */ ,
+				A45AC621985A0F931D452461 /* thread_win32.h */ ,
+			);
+			name = backend;
+			sourceTree = "<group>";
+		};
+		E61F5F55803BD3C7CC771D95 /* zbase */ = {
+			isa = PBXGroup;
+			children = (
+				5E8C725002DF100215175890 /* include */ ,
+				5775D4184366DFCA959E7A58 /* src */ ,
+				A6C936B49B3FADE6EA134CF4 /* Products */ ,
+			);
+			name = zbase;
+			sourceTree = "<group>";
+		};
+		/* End PBXGroup section */
+
+		/* Begin PBXNativeTarget section */
+		BBBB0F68EBFD281AD398B5A8 /* zbase */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B1F934919CE55A83E4CB22D1 /* Build configuration list for PBXNativeTarget "zbase" */ ;
+			buildPhases = (
+				33A56CD21E9192C466775B12 /* Resources */ ,
+				9D528629883EAC1BD0247469 /* Sources */ ,
+				C3BDEC32AEAA1224F68FDA72 /* Frameworks */ ,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = zbase;
+			productName = zbase;
+			productReference = FFFF07C225DF56B400EC9602 /* libzbase-gcc-d.dylib */ ;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		/* End PBXNativeTarget section */
+
+		/* Begin PBXNativeTarget section */
+		BBBB1F68EBFD281AD398B5A8 /* zbase */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B1F934919CE55A83E4CB22D1 /* Build configuration list for PBXNativeTarget "zbase" */ ;
+			buildPhases = (
+				33A56CD21E9192C466775B12 /* Resources */ ,
+				9D528629883EAC1BD0247469 /* Sources */ ,
+				C3BDEC32AEAA1224F68FDA72 /* Frameworks */ ,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = zbase;
+			productName = zbase;
+			productReference = FFFF17C225DF56B400EC9602 /* libzbase-gcc.dylib */ ;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		/* End PBXNativeTarget section */
+
+		/* Begin PBXNativeTarget section */
+		BBBB2F68EBFD281AD398B5A8 /* zbase */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B1F934919CE55A83E4CB22D1 /* Build configuration list for PBXNativeTarget "zbase" */ ;
+			buildPhases = (
+				33A56CD21E9192C466775B12 /* Resources */ ,
+				9D528629883EAC1BD0247469 /* Sources */ ,
+				C3BDEC32AEAA1224F68FDA72 /* Frameworks */ ,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = zbase;
+			productName = zbase;
+			productReference = FFFF27C225DF56B400EC9602 /* libzbase-gcc-sd.a */ ;
+			productType = "com.apple.product-type.library.static";
+		};
+		/* End PBXNativeTarget section */
+
+		/* Begin PBXNativeTarget section */
+		BBBB3F68EBFD281AD398B5A8 /* zbase */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B1F934919CE55A83E4CB22D1 /* Build configuration list for PBXNativeTarget "zbase" */ ;
+			buildPhases = (
+				33A56CD21E9192C466775B12 /* Resources */ ,
+				9D528629883EAC1BD0247469 /* Sources */ ,
+				C3BDEC32AEAA1224F68FDA72 /* Frameworks */ ,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = zbase;
+			productName = zbase;
+			productReference = FFFF37C225DF56B400EC9602 /* libzbase-gcc-s.a */ ;
+			productType = "com.apple.product-type.library.static";
+		};
+		/* End PBXNativeTarget section */
+
+		/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {};
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "zbase-macosx-xcode4" */ ;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E61F5F55803BD3C7CC771D95 /* zbase */ ;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BBBB0F68EBFD281AD398B5A8 /* zbase */ ,
+				BBBB1F68EBFD281AD398B5A8 /* zbase */ ,
+				BBBB2F68EBFD281AD398B5A8 /* zbase */ ,
+				BBBB3F68EBFD281AD398B5A8 /* zbase */ ,
+			);
+		};
+		/* End PBXProject section */
+
+		/* Begin PBXResourcesBuildPhase section */
+		33A56CD21E9192C466775B12 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		/* End PBXResourcesBuildPhase section */
+
+		/* Begin PBXSourcesBuildPhase section */
+		9D528629883EAC1BD0247469 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B3B642C291C64DE009AAA6C /* allocator_impl.cpp in Sources */ ,
+				9C1102F73634F829E65AD937 /* error_win32.cpp in Sources */ ,
+				D00163997776FF4B203C09D9 /* event_loop_win32.cpp in Sources */ ,
+				D3175425E2FC8057CF700A65 /* file_unix.cpp in Sources */ ,
+				B522AC635303AD152A81F2A3 /* file_win32.cpp in Sources */ ,
+				FA418A3342E0C865660C8073 /* mutex_pthread.cpp in Sources */ ,
+				3A1EF85F4A0424913677AE9F /* path_unix.cpp in Sources */ ,
+				CAEC957D68CD962F404BDBBD /* path_win32.cpp in Sources */ ,
+				7805A8C32AFBB2757C1E0F03 /* process_unix.cpp in Sources */ ,
+				72714A41BB108873DE3C4081 /* process_win32.cpp in Sources */ ,
+				BF253527669AD0D90F5FDB67 /* text_codec_win32.cpp in Sources */ ,
+				B601DB7DA3696E2F406361BD /* thread_pthread.cpp in Sources */ ,
+				DB1A09538E101305DF326F93 /* thread_win32.cpp in Sources */ ,
+				F7BC281207A15444F414DE52 /* base_api_impl.cpp in Sources */ ,
+				66957B14DA7DF2C6FCCBA154 /* command_line.cpp in Sources */ ,
+				AE4054008D5D6E326966CA40 /* date_time.cpp in Sources */ ,
+				1FDCF6F40D4489A6AA3E7D34 /* date_time_api_impl.cpp in Sources */ ,
+				FBF7FE3CE03F066E642C347C /* error.cpp in Sources */ ,
+				C14B15705F2C162236AA5BB0 /* error_api_impl.cpp in Sources */ ,
+				174EA4D2FCE5AC04C02ABB12 /* event_loop_api_impl.cpp in Sources */ ,
+				0EB32B46FC1ABDF89914B186 /* event_loop_default.cpp in Sources */ ,
+				B56A58EE4DB73EA07BFE3F2E /* log_impl.cpp in Sources */ ,
+				68EA4022370D93D4BE1BE662 /* path.cpp in Sources */ ,
+				8D1579AC27396EDED75F4FEC /* thread_api_impl.cpp in Sources */ ,
+				1789364C172C197E5180CC8C /* thread_base.cpp in Sources */ ,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		/* End PBXSourcesBuildPhase section */
+
+		/* Begin XCBuildConfiguration section */
+		09A387ADADF6255FC02E6DED /* dll-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					_DEBUG,
+					ZBASE_BUILD,
+					ZBASE_SHARED,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OBJROOT = "../tmpdir/x64/dll-debug/zbase";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fdeclspec";
+				OTHER_LDFLAGS = (
+					"-lshlwapi",
+					"-lshell32",
+				);
+				SYMROOT = "../lib/macosx-x86_64";
+				USER_HEADER_SEARCH_PATHS = "../include ../src";
+			};
+			name = "dll-debug";
+		};
+		3BC4095BCE51D34D372A779B /* lib-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "../lib/macosx-x86_64";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_EXTENSION = a;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local / lib;
+				MACH_O_TYPE = staticlib;
+				PRODUCT_NAME = "zbase-gcc-sd";
+			};
+			name = "lib-debug";
+		};
+		43D0634247413574C8ADD982 /* lib-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+					ZBASE_BUILD,
+					ZBASE_STATIC,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OBJROOT = "../tmpdir/x64/lib-release/zbase";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-fdeclspec";
+				SYMROOT = "../lib/macosx-x86_64";
+				USER_HEADER_SEARCH_PATHS = "../include ../src";
+			};
+			name = "lib-release";
+		};
+		61C0E73ACEE8F5ACD07BE57A /* dll-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "../lib/macosx-x86_64";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local / lib;
+				PRODUCT_NAME = "zbase-gcc";
+			};
+			name = "dll-release";
+		};
+		7C9DBC400F2B863278042A80 /* dll-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "../lib/macosx-x86_64";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local / lib;
+				PRODUCT_NAME = "zbase-gcc-d";
+			};
+			name = "dll-debug";
+		};
+		83AEE715F0D6F587F269E555 /* lib-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "../lib/macosx-x86_64";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_EXTENSION = a;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local / lib;
+				MACH_O_TYPE = staticlib;
+				PRODUCT_NAME = "zbase-gcc-s";
+			};
+			name = "lib-release";
+		};
+		BC22A708607544BA72AD8D48 /* lib-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					_DEBUG,
+					ZBASE_BUILD,
+					ZBASE_STATIC,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OBJROOT = "../tmpdir/x64/lib-debug/zbase";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fdeclspec";
+				SYMROOT = "../lib/macosx-x86_64";
+				USER_HEADER_SEARCH_PATHS = "../include ../src";
+			};
+			name = "lib-debug";
+		};
+		F50C0127F87CD35979E97767 /* dll-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+					ZBASE_BUILD,
+					ZBASE_SHARED,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OBJROOT = "../tmpdir/x64/dll-release/zbase";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-fdeclspec";
+				OTHER_LDFLAGS = (
+					"-lshlwapi",
+					"-lshell32",
+				);
+				SYMROOT = "../lib/macosx-x86_64";
+				USER_HEADER_SEARCH_PATHS = "../include ../src";
+			};
+			name = "dll-release";
+		};
+		/* End XCBuildConfiguration section */
+
+		/* Begin XCConfigurationList section */
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "zbase-macosx-xcode4" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09A387ADADF6255FC02E6DED /* dll-debug */ ,
+				F50C0127F87CD35979E97767 /* dll-release */ ,
+				BC22A708607544BA72AD8D48 /* lib-debug */ ,
+				43D0634247413574C8ADD982 /* lib-release */ ,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "dll-debug";
+		};
+		B1F934919CE55A83E4CB22D1 /* Build configuration list for PBXNativeTarget "zbase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C9DBC400F2B863278042A80 /* dll-debug */ ,
+				61C0E73ACEE8F5ACD07BE57A /* dll-release */ ,
+				3BC4095BCE51D34D372A779B /* lib-debug */ ,
+				83AEE715F0D6F587F269E555 /* lib-release */ ,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "dll-debug";
+		};
+		/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */ ;
+}

@@ -195,7 +195,7 @@ function project(name, macroprefix_or_initialize_cb, initialize_cb)
 	if _PROJECT.directory == nil then directory(); end			-- directory\
 	if _PROJECT.sourcedirs == nil then sourcedirs(); end		-- sourcedirs
 	if _PROJECT.filename == nil then filename(); end			-- filename
-	if _PROJECT.targetext == nil then targetext(); end			-- targetext
+	--if _PROJECT.targetext == nil then targetext(); end		-- targetext
 	--if _PROJECT.targetprefix == nil then targetprefix(); end	-- targetprefix
 	if _PROJECT.targetsuffix == nil then targetsuffix(); end	-- targetsuffix
 	if _PROJECT.targetname == nil then targetname(); end		-- targetname
@@ -853,7 +853,7 @@ function depends(deps)
 	dependbuilds(depends_projects);
 
 	for _,lib in pairs(libs) do
-    	filter(lib.filter);
+    filter(lib.filter);
 		if lib.includedirs then
 			includedirs(lib.includedirs);
 		end
@@ -863,7 +863,20 @@ function depends(deps)
 		if lib.defines then
 			defines(lib.defines);
 		end
-		if lib.links and _PROJECT.category ~= PROJECT_CATEGORY_STATIC then
+    
+    if _PROJECT.category ~= PROJECT_CATEGORY_STATIC then
+      if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
+        local filterplusdll = table.deepcopy(lib.filter);
+        table.insert(filterplusdll, "dll-*");
+        filter(filterplusdll);
+      end
+      if lib.links then
+        links(lib.links);
+      end
+      filter(lib.filter);
+    end
+
+		--[[if lib.links and _PROJECT.category ~= PROJECT_CATEGORY_STATIC then
 			local filters = "*";
 			if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
 				filters = "dll-*"
@@ -871,6 +884,7 @@ function depends(deps)
 			configuration {filters} links(lib.links);
 			configuration {}
 		end
+    ]]--
 
 		function resolve_one_cmd(cmd)
     		local exec = cmd.exec;
@@ -895,16 +909,16 @@ function depends(deps)
     		local cmds = resolve_all_cmds(lib.postbuildcmds);
     		for _, cmd in ipairs(cmds) do
     			if (cmd.filter) then filter(cmd.filter); end
-				postbuildcmds({cmd.fixed});
-				if (cmd.filter) then filter{}; end
+            postbuildcmds({cmd.fixed});
+          if (cmd.filter) then filter{lib.filter}; end
     		end
 		end
 		if lib.prebuildcmds then
     		local cmds = resolve_all_cmds(lib.prebuildcmds);
     		for _, cmd in ipairs(cmds) do
 	    		if (cmd.filter) then filter(cmd.filter); end
-				prebuildcmds({cmd.fixed});
-				if (cmd.filter) then filter{}; end
+            prebuildcmds({cmd.fixed});
+          if (cmd.filter) then filter{lib.filter}; end
     		end
 		end
 		filter{};

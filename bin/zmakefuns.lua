@@ -128,6 +128,20 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 		platforms {"x64"};
 	end
 
+	-- -fdeclspec
+	if _ACTION:find("vs20") ~= 1 then
+		buildoptions { "-fdeclspec" };
+	end
+
+	-- vs2008 use c++98
+	--if _ACTION ~= "vs2008" then
+	--	if _ACTION:find("vs20") == 1 then
+	--		cppdialect "c++11"
+	--	else
+	--		cppdialect "gnu++11"
+	--	end
+	--end
+
 	-- platform/architecture
 	if os.target() == "windows" then
 		olddefines {"_WIN32", "WIN32", "_ATL_XP_TARGETING", "UNICODE", "_UNICODE"};
@@ -146,10 +160,6 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 		optimize("Speed");
 
 	configuration {};
-
-	if os.target() ~= "windows" then
-		buildoptions { "-fdeclspec" };
-	end
 
 	-- apply user settings
 	initialize_cb();

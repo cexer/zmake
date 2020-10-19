@@ -1,0 +1,3 @@
+[submodule "src/premake-core"]
+	path = src/premake-core
+	url = https://github.com/cexer/premake-core.git

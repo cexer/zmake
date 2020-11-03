@@ -129,8 +129,14 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	end
 
 	-- -fdeclspec
+	-- TODO: use 'clang' as condition
 	if _ACTION:find("xcode") == 1 then
 		buildoptions { "-fdeclspec" };
+	end
+
+	-- pthread
+	if os.target() ~= "windows" then
+		linkoptions { "-lpthread" };
 	end
 
 	-- vs2008 use c++98

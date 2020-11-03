@@ -129,7 +129,7 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	end
 
 	-- -fdeclspec
-	if _ACTION:find("vs20") ~= 1 then
+	if _ACTION:find("xcode") == 1 then
 		buildoptions { "-fdeclspec" };
 	end
 

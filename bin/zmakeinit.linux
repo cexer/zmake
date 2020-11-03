@@ -1,0 +1,3 @@
+#!/bin/bash
+curdir=$(cd "$(dirname "$0")";pwd)
+"$curdir/premake5.linux" --projdir="$(pwd)" --systemscript="$curdir/zmakeinit.lua" $*

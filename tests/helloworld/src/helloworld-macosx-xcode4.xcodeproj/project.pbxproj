@@ -1,0 +1,357 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B68AC1CC0D182C3EE591400C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21F5234E590246666FCC874 /* main.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01EB5250ECD7784234BD4090 /* helloworld-gcc-d */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = "helloworld-gcc-d"; path = "helloworld-gcc-d"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E21F5234E590246666FCC874 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = main.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B5309FC0B5E39CB229C56E00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5173459C3D64514E8F9BEBDC /* helloworld */ = {
+			isa = PBXGroup;
+			children = (
+				E21F5234E590246666FCC874 /* main.cpp */,
+				A6C936B49B3FADE6EA134CF4 /* Products */,
+			);
+			name = helloworld;
+			sourceTree = "<group>";
+		};
+		A6C936B49B3FADE6EA134CF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				01EB5250ECD7784234BD4090 /* helloworld-gcc-d */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FA6A203620904FE887974676 /* helloworld */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A36BE81FA41EE5111800B65F /* Build configuration list for PBXNativeTarget "helloworld" */;
+			buildPhases = (
+				2518206025CB1D5299ACEEA0 /* Resources */,
+				8EC539B78F7836A9035A07F7 /* Sources */,
+				B5309FC0B5E39CB229C56E00 /* Frameworks */,
+				9607AE3710C85E8F00CD1376 /* Postbuild */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = helloworld;
+			productInstallPath = "$(HOME)/bin";
+			productName = helloworld;
+			productReference = 01EB5250ECD7784234BD4090 /* helloworld-gcc-d */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "helloworld" */;
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 1;
+			mainGroup = 5173459C3D64514E8F9BEBDC /* helloworld */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FA6A203620904FE887974676 /* helloworld-gcc-d */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2518206025CB1D5299ACEEA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9607AE3710C85E8F00CD1376 /* Postbuild */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Postbuild;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nif [ \"${CONFIGURATION}\" = \"dll-debug\" ]; then\ncp -rf ../lib/macosx-x86_64/libzbase-gcc-d.dylib  ../lib/macosx-x86_64\nfi\nif [ \"${CONFIGURATION}\" = \"dll-release\" ]; then\ncp -rf ../lib/macosx-x86_64/libzbase-gcc.dylib  ../lib/macosx-x86_64\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8EC539B78F7836A9035A07F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B68AC1CC0D182C3EE591400C /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0C4512235093B79592BAF063 /* lib-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "../lib/macosx-x86_64";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				MACH_O_TYPE = mh_executable;
+				PRODUCT_NAME = "helloworld-gcc-s";
+			};
+			name = "lib-release";
+		};
+		266D2954272026469B01F794 /* dll-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					_DEBUG,
+					HELLOWORLD_BUILD,
+					HELLOWORLD_SHARED,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"../../../../zion/lib/macosx-x86_64",
+				);
+				OBJROOT = "../tmpdir/x64/dll-debug";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-fdeclspec",
+					"-std=c++11",
+				);
+				OTHER_LDFLAGS = (
+					"-lpugixml",
+					"-lCocoa.frameworl",
+					"-lzbase-gcc-d",
+					"-lpthread",
+				);
+				SYMROOT = "../lib/macosx-x86_64";
+				USER_HEADER_SEARCH_PATHS = (
+					../../../../zion/include,
+				);
+			};
+			name = "dll-debug";
+		};
+		6AC4A88E642AAA0057C606CE /* dll-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+					HELLOWORLD_BUILD,
+					HELLOWORLD_SHARED,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"../../../../zion/lib/macosx-x86_64",
+				);
+				OBJROOT = "../tmpdir/x64/dll-release";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = (
+					"-fdeclspec",
+					"-std=c++11",
+				);
+				OTHER_LDFLAGS = (
+					"-lpugixml",
+					"-lCocoa.frameworl",
+					"-lzbase-gcc",
+					"-lpthread",
+				);
+				SYMROOT = "../lib/macosx-x86_64";
+				USER_HEADER_SEARCH_PATHS = (
+					../../../../zion/include,
+				);
+			};
+			name = "dll-release";
+		};
+		9F1818E9103AB9DBC6016729 /* lib-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "../lib/macosx-x86_64";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				MACH_O_TYPE = mh_executable;
+				PRODUCT_NAME = "helloworld-gcc-sd";
+			};
+			name = "lib-debug";
+		};
+		B9890AA9B2EF0C1BA68A68E9 /* lib-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+					HELLOWORLD_BUILD,
+					HELLOWORLD_STATIC,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"../../../../zion/lib/macosx-x86_64",
+				);
+				OBJROOT = "../tmpdir/x64/lib-release";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = (
+					"-fdeclspec",
+					"-std=c++11",
+				);
+				OTHER_LDFLAGS = (
+					"-lpugixml",
+					"-lCocoa.frameworl",
+					"-lzbase-gcc-s",
+					"-lpthread",
+				);
+				SYMROOT = "../lib/macosx-x86_64";
+				USER_HEADER_SEARCH_PATHS = (
+					../../../../zion/include,
+				);
+			};
+			name = "lib-release";
+		};
+		D8EC48AFD99F45A14D8116EF /* lib-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					_DEBUG,
+					HELLOWORLD_BUILD,
+					HELLOWORLD_STATIC,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"../../../../zion/lib/macosx-x86_64",
+				);
+				OBJROOT = "../tmpdir/x64/lib-debug";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-fdeclspec",
+					"-std=c++11",
+				);
+				OTHER_LDFLAGS = (
+					"-lpugixml",
+					"-lCocoa.frameworl",
+					"-lzbase-gcc-sd",
+					"-lpthread",
+				);
+				SYMROOT = "../lib/macosx-x86_64";
+				USER_HEADER_SEARCH_PATHS = (
+					../../../../zion/include,
+				);
+			};
+			name = "lib-debug";
+		};
+		DFF1CBCE51146CC006DB1A0E /* dll-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "../lib/macosx-x86_64";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				MACH_O_TYPE = mh_executable;
+				PRODUCT_NAME = "helloworld-gcc-d";
+			};
+			name = "dll-debug";
+		};
+		EA5712482EA5B7BA70CCF088 /* dll-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "../lib/macosx-x86_64";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				MACH_O_TYPE = mh_executable;
+				PRODUCT_NAME = "helloworld-gcc";
+			};
+			name = "dll-release";
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "helloworld" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				266D2954272026469B01F794 /* dll-debug */,
+				6AC4A88E642AAA0057C606CE /* dll-release */,
+				D8EC48AFD99F45A14D8116EF /* lib-debug */,
+				B9890AA9B2EF0C1BA68A68E9 /* lib-release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "dll-debug";
+		};
+		A36BE81FA41EE5111800B65F /* Build configuration list for PBXNativeTarget "helloworld-gcc-d" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DFF1CBCE51146CC006DB1A0E /* dll-debug */,
+				EA5712482EA5B7BA70CCF088 /* dll-release */,
+				9F1818E9103AB9DBC6016729 /* lib-debug */,
+				0C4512235093B79592BAF063 /* lib-release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "dll-debug";
+		};
+/* End XCConfigurationList section */
+};
+rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

@@ -13,18 +13,18 @@ endif
 ifeq ($(config),dll-debug_x32)
   RESCOMP = windres
   TARGETDIR = ../lib/linux-x86
-  TARGET = $(TARGETDIR)/helloworld-d
-  OBJDIR = ../tmp/x32/dll-debug
-  DEFINES += -D_DEBUG -DPRE_SHARED
+  TARGET = $(TARGETDIR)/helloworld-gcc-d
+  OBJDIR = ../tmpdir/x32/dll-debug
+  DEFINES += -D_DEBUG -DHELLOWORLD_BUILD -DHELLOWORLD_SHARED
   INCLUDES +=
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O0 -g -fdeclspec -std=c++11
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O0 -g -fdeclspec -std=c++11
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -lpthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -40,18 +40,18 @@ endif
 ifeq ($(config),dll-debug_x64)
   RESCOMP = windres
   TARGETDIR = ../lib/linux-x86_64
-  TARGET = $(TARGETDIR)/helloworld-d
-  OBJDIR = ../tmp/x64/dll-debug
-  DEFINES += -D_DEBUG -DPRE_SHARED
+  TARGET = $(TARGETDIR)/helloworld-gcc-d
+  OBJDIR = ../tmpdir/x64/dll-debug
+  DEFINES += -D_DEBUG -DHELLOWORLD_BUILD -DHELLOWORLD_SHARED
   INCLUDES +=
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O0 -g -fdeclspec -std=c++11
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O0 -g -fdeclspec -std=c++11
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -lpthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -67,18 +67,18 @@ endif
 ifeq ($(config),dll-release_x32)
   RESCOMP = windres
   TARGETDIR = ../lib/linux-x86
-  TARGET = $(TARGETDIR)/helloworld
-  OBJDIR = ../tmp/x32/dll-release
-  DEFINES += -DNDEBUG -DPRE_SHARED
+  TARGET = $(TARGETDIR)/helloworld-gcc
+  OBJDIR = ../tmpdir/x32/dll-release
+  DEFINES += -DNDEBUG -DHELLOWORLD_BUILD -DHELLOWORLD_SHARED
   INCLUDES +=
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O3
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O3
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O3 -g -fdeclspec -std=c++11
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O3 -g -fdeclspec -std=c++11
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -lpthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -94,18 +94,18 @@ endif
 ifeq ($(config),dll-release_x64)
   RESCOMP = windres
   TARGETDIR = ../lib/linux-x86_64
-  TARGET = $(TARGETDIR)/helloworld
-  OBJDIR = ../tmp/x64/dll-release
-  DEFINES += -DNDEBUG -DPRE_SHARED
+  TARGET = $(TARGETDIR)/helloworld-gcc
+  OBJDIR = ../tmpdir/x64/dll-release
+  DEFINES += -DNDEBUG -DHELLOWORLD_BUILD -DHELLOWORLD_SHARED
   INCLUDES +=
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O3
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O3
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O3 -g -fdeclspec -std=c++11
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O3 -g -fdeclspec -std=c++11
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -lpthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -121,18 +121,18 @@ endif
 ifeq ($(config),lib-debug_x32)
   RESCOMP = windres
   TARGETDIR = ../lib/linux-x86
-  TARGET = $(TARGETDIR)/helloworld-sd
-  OBJDIR = ../tmp/x32/lib-debug
-  DEFINES += -D_DEBUG -DPRE_STATIC
+  TARGET = $(TARGETDIR)/helloworld-gcc-sd
+  OBJDIR = ../tmpdir/x32/lib-debug
+  DEFINES += -D_DEBUG -DHELLOWORLD_BUILD -DHELLOWORLD_STATIC
   INCLUDES +=
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O0 -g -fdeclspec -std=c++11
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O0 -g -fdeclspec -std=c++11
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -lpthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -148,18 +148,18 @@ endif
 ifeq ($(config),lib-debug_x64)
   RESCOMP = windres
   TARGETDIR = ../lib/linux-x86_64
-  TARGET = $(TARGETDIR)/helloworld-sd
-  OBJDIR = ../tmp/x64/lib-debug
-  DEFINES += -D_DEBUG -DPRE_STATIC
+  TARGET = $(TARGETDIR)/helloworld-gcc-sd
+  OBJDIR = ../tmpdir/x64/lib-debug
+  DEFINES += -D_DEBUG -DHELLOWORLD_BUILD -DHELLOWORLD_STATIC
   INCLUDES +=
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O0 -g -fdeclspec -std=c++11
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O0 -g -fdeclspec -std=c++11
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -lpthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -175,18 +175,18 @@ endif
 ifeq ($(config),lib-release_x32)
   RESCOMP = windres
   TARGETDIR = ../lib/linux-x86
-  TARGET = $(TARGETDIR)/helloworld-s
-  OBJDIR = ../tmp/x32/lib-release
-  DEFINES += -DNDEBUG -DPRE_STATIC
+  TARGET = $(TARGETDIR)/helloworld-gcc-s
+  OBJDIR = ../tmpdir/x32/lib-release
+  DEFINES += -DNDEBUG -DHELLOWORLD_BUILD -DHELLOWORLD_STATIC
   INCLUDES +=
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O3
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O3
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O3 -g -fdeclspec -std=c++11
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O3 -g -fdeclspec -std=c++11
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -lpthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -202,18 +202,18 @@ endif
 ifeq ($(config),lib-release_x64)
   RESCOMP = windres
   TARGETDIR = ../lib/linux-x86_64
-  TARGET = $(TARGETDIR)/helloworld-s
-  OBJDIR = ../tmp/x64/lib-release
-  DEFINES += -DNDEBUG -DPRE_STATIC
+  TARGET = $(TARGETDIR)/helloworld-gcc-s
+  OBJDIR = ../tmpdir/x64/lib-release
+  DEFINES += -DNDEBUG -DHELLOWORLD_BUILD -DHELLOWORLD_STATIC
   INCLUDES +=
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O3
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O3
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O3 -g -fdeclspec -std=c++11
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O3 -g -fdeclspec -std=c++11
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -lpthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef

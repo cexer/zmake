@@ -1,21 +1,52 @@
---print("prelibs.lua");
+-- about setfenv
+-- https://blog.csdn.net/jayson520/article/details/51498848/
 
 -- Global variables
 _LIBRARIES = _LIBRARIES or {}; -- predefined libraries
-
-function library(name, lib)
-	_LIBRARIES[name] = lib;
+_LIBRARY = {
+	includedirs = {},
+	libdirs = {},
+	links = {},
+	postbuildcmds = {},
+	prebuildcmds = {}
+};
+_LIBRARY_APIS = {
+	includedirs = function(dirs) {
+		table.insert(_LIBRARY.includedirs, dirs);
+	end,
+	libdirs = function(table) {
+		table.insert(_LIBRARY.libdirs, dirs);
+	end,
+	links = function(table) {
+		table.insert(_LIBRARY.links, dirs);
+	end,
+	postbuildcmds = function(table) {
+		table.insert(_LIBRARY.postbuildcmds, dirs);
+	end,
+	prebuildcmds = function(table) {
+		table.insert(_LIBRARY.prebuildcmds, dirs);
+	end
+};
+local _GLOBAL_ENV = _ENV;
+setmetatable(_LIBRARY_APIS, {__index = _GLOBAL_ENV});
+	
+function library(name, defineProcdure)
+	_LIBRARY = {};
+	_LIBRARIES[name] = _LIBRARY;
+	_LIBRARY.name = name;
+	local _ENV = _LIBRARY_APIS;
+	defineProcdure();
 end
 
 
-library("boost", {
-    includedirs = {
-        "F:/develop/library/boost_1_61_0"
-    },
-    libdirs = {
-		"F:/develop/library/boost_1_61_0/link"
-    }
-});
+--library("boost", {
+--    includedirs = {
+--        "F:/develop/library/boost_1_61_0"
+--    },
+--    libdirs = {
+--		"F:/develop/library/boost_1_61_0/link"
+--    }
+--});
 
 --[[
 library("qbase", {

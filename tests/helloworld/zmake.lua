@@ -5,13 +5,14 @@ library("zbase", function()
 	
 	depends { "pugixml" }
 	if os.target() == "windows" then
-		depends { links={"shlwapi", "shell32", "stb" } }
+		depends { "shlwapi", "shell32", "stb" }
+		linkoptions {"/FORCELINK"}
 	end
 	if os.target() == "macosx" then
-		depends { links={"Cocoa.framewokr" } }
+		depends { "Cocoa.framewokr" }
 	end
 	if os.target() == "linux" then
-		depends { links={"glibc" } }
+		linkoptions { "pkg-config --cflags --libs gtk+-2.0" }
 	end
 	
 	postbuildcmds {

@@ -68,7 +68,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOLOGO /DEBUG"
+				AdditionalOptions="/NOLOGO /DEBUG /FORCELINK"
 				AdditionalDependencies="pugixml.lib shlwapi.lib shell32.lib stb.lib zbase-d.lib"
 				OutputFile="$(OutDir)\helloworld-d.exe"
 				LinkIncremental="0"
@@ -149,7 +149,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOLOGO /DEBUG"
+				AdditionalOptions="/NOLOGO /DEBUG /FORCELINK"
 				AdditionalDependencies="pugixml.lib shlwapi.lib shell32.lib stb.lib zbase-d.lib"
 				OutputFile="$(OutDir)\helloworld-d.exe"
 				LinkIncremental="0"
@@ -228,7 +228,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOLOGO /DEBUG"
+				AdditionalOptions="/NOLOGO /DEBUG /FORCELINK"
 				AdditionalDependencies="pugixml.lib shlwapi.lib shell32.lib stb.lib zbase.lib"
 				OutputFile="$(OutDir)\helloworld.exe"
 				LinkIncremental="0"
@@ -308,7 +308,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOLOGO /DEBUG"
+				AdditionalOptions="/NOLOGO /DEBUG /FORCELINK"
 				AdditionalDependencies="pugixml.lib shlwapi.lib shell32.lib stb.lib zbase.lib"
 				OutputFile="$(OutDir)\helloworld.exe"
 				LinkIncremental="0"
@@ -388,7 +388,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOLOGO /DEBUG"
+				AdditionalOptions="/NOLOGO /DEBUG /FORCELINK"
 				AdditionalDependencies="pugixml.lib shlwapi.lib shell32.lib stb.lib zbase-sd.lib"
 				OutputFile="$(OutDir)\helloworld-sd.exe"
 				LinkIncremental="0"
@@ -468,7 +468,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOLOGO /DEBUG"
+				AdditionalOptions="/NOLOGO /DEBUG /FORCELINK"
 				AdditionalDependencies="pugixml.lib shlwapi.lib shell32.lib stb.lib zbase-sd.lib"
 				OutputFile="$(OutDir)\helloworld-sd.exe"
 				LinkIncremental="0"
@@ -546,7 +546,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOLOGO /DEBUG"
+				AdditionalOptions="/NOLOGO /DEBUG /FORCELINK"
 				AdditionalDependencies="pugixml.lib shlwapi.lib shell32.lib stb.lib zbase-s.lib"
 				OutputFile="$(OutDir)\helloworld-s.exe"
 				LinkIncremental="0"
@@ -625,7 +625,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOLOGO /DEBUG"
+				AdditionalOptions="/NOLOGO /DEBUG /FORCELINK"
 				AdditionalDependencies="pugixml.lib shlwapi.lib shell32.lib stb.lib zbase-s.lib"
 				OutputFile="$(OutDir)\helloworld-s.exe"
 				LinkIncremental="0"

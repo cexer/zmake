@@ -35,6 +35,8 @@ PROJECT_CATEGORY_WINDOW = "WindowedApp"    -- windowed gui app
 
 -- backup original premake functions
 local premakeAPI = {}
+--setmetatable(premakeAPI, {__index = _ENV})
+
 premakeAPI.pathappendextension = path.appendextension
 premakeAPI.solution = solution
 premakeAPI.project = project
@@ -52,6 +54,11 @@ premakeAPI.libdirs = libdirs
 premakeAPI.links = links
 premakeAPI.runtime = runtime
 premakeAPI.filter = filter
+premakeAPI.linkoptions = linkoptions
+premakeAPI.buildoptions = buildoptions
+premakeAPI.location = location
+premakeAPI.postbuildcommands = postbuildcommands
+premakeAPI.prebuildcommands = prebuildcommands
 
 -- Default zmake.lua
 if not _OPTIONS["file"] then
@@ -81,56 +88,47 @@ end
 -- Define library function
 _LIBRARY_APIS = {
 	includedirs = function(v)
-		_LIBRARY.includedirs = table.join(_LIBRARY.includedirs, v)
+		_LIBRARY.includedirs = table.join(_LIBRARY.includedirs or {}, v)
 	end,
 	libdirs = function(v)
-		_LIBRARY.libdirs = table.join(_LIBRARY.libdirs, v)
+		_LIBRARY.libdirs = table.join(_LIBRARY.libdirs or {}, v)
 	end,
 	links = function(v)
-		_LIBRARY.links = table.join(_LIBRARY.links, v)
+		_LIBRARY.links = table.join(_LIBRARY.links or {}, v)
 	end,
 	postbuildcmds = function(v)
-		_LIBRARY.postbuildcmds = table.join(_LIBRARY.postbuildcmds, v)
+		_LIBRARY.postbuildcmds = table.join(_LIBRARY.postbuildcmds or {}, v)
 	end,
-	postbuildcopydlls = function(v)
+	linkoptions = function(v)
+		_LIBRARY.linkoptions = table.join(_LIBRARY.linkoptions or {}, v)
+	end,
+	compileoptions = function(v)
+		_LIBRARY.compileoptions = table.join(_LIBRARY.compileoptions or {}, v)
+	end,
+	postbuildcopydlls = function(name)
+		name = name or _LIBRARY.name
 	    _LIBRARY_APIS.postbuildcmds {
 	        {
 	            exec = "copy",
 	            filter = {"kind:WindowedApp or ConsoleApp", "dll-*"},
-	            from = "{libdir}/{dllprefix}zui{-cc}{-sd}{.dll}"
+	            from = string.format("{libdir}/{dllprefix}%s{-cc}{-sd}{.dll}", name)
 	        }
 	    }
 	end,
 	prebuildcmds = function(v)
-		_LIBRARY.prebuildcmds = table.join(_LIBRARY.prebuildcmds, v)
+		_LIBRARY.prebuildcmds = table.join(_LIBRARY.prebuildcmds or {}, v)
 	end,
 	depends = function(v)
 		if v.filter or v.links then
 			v = {v}
 		end
-		_LIBRARY.depends = table.join(_LIBRARY.depends, v)
+		_LIBRARY.depends = table.join(_LIBRARY.depends or {}, v)
 	end
 }
 setmetatable(_LIBRARY_APIS, {__index = _ENV})
 
 -- https://leafo.net/guides/setfenv-in-lua52-and-above.html
--- https://stackoverflow.com/questions/14290527/recreating-setfenv-in-lua-5-2
-if not setfenv then -- Lua 5.2
-  -- based on http://lua-users.org/lists/lua-l/2010-06/msg00314.html
-  -- this assumes f is a function
-  --local function findenv(f)
-  --  local level = 1
-  --  repeat
-  --    local name, value = debug.getupvalue(f, level)
-  --    if name == '_ENV' then return level, value end
-  --    level = level + 1
-  --  until name == nil
-  --  return nil end
-  --getfenv = function (f) return(select(2, findenv(f)) or _G) end
-  --setfenv = function (f, t)
-  --  local level = findenv(f)
-  --  if level then debug.setupvalue(f, level, t) end
-  --  return f end
+if not setfenv then
 	setfenv = function(fn, env)
 	  local i = 1
 	  while true do
@@ -244,17 +242,17 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	-- -fdeclspec
 	-- TODO: use 'clang' as condition
 	if os.target() ~= "windows" then
-		buildoptions { "-fdeclspec" }
+		premakeAPI.buildoptions { "-fdeclspec" }
 	end
 
 	-- -std=c++11
 	if os.target() ~= "windows" then
-		buildoptions { "-std=c++11" }
+		premakeAPI.buildoptions { "-std=c++11" }
 	end
 
 	-- pthread
 	if os.target() ~= "windows" then
-		linkoptions { "-lpthread" }
+		premakeAPI.linkoptions { "-lpthread" }
 	end
 
 	-- vs2008 use c++98
@@ -271,6 +269,7 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 		premakeAPI.defines {"_WIN32", "WIN32", "_ATL_XP_TARGETING", "UNICODE", "_UNICODE"}
 		filter {"platforms:x64"} 
 			premakeAPI.defines {"_WIN64", "WIN64"}
+		filter {}
 	end
 
 	-- debug/release
@@ -282,7 +281,6 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 		premakeAPI.defines {"NDEBUG"} 
 		premakeAPI.runtime("Release")
 		optimize("Speed")
-
 	configuration {}
 
 	-- apply user settings
@@ -334,7 +332,7 @@ function project(name, macroprefix_or_initialize_cb, initialize_cb)
 	if predefined then
 		local deps = predefined.depends
 		if deps then
-			depends(deps)
+			depends(name)
 		end
 	end
 
@@ -350,11 +348,13 @@ function runtime(rt)
 			premakeAPI.defines { _PROJECT.macroprefix .. "_SHARED" } 
 			--flags { rt or "StaticRuntime" }
 			staticruntime "Off"
+		configuration{}
 	elseif _PROJECT.category == PROJECT_CATEGORY_STATIC then
 		configuration {"*"} 
 			premakeAPI.defines { _PROJECT.macroprefix .. "_STATIC"} 
 			--flags { rt or "StaticRuntime" }
 			staticruntime "On"
+		configuration{}
 	else
 		configuration {"dll-*"} 
 			premakeAPI.defines { _PROJECT.macroprefix .. "_SHARED"} 
@@ -440,51 +440,64 @@ function get_dll_prefix()
 end
 
 -- replace tokens to valid premake style tokens
-local function resolve_tokens(strings, isimp, rt)
-	function resolve_one(v)
-		local originv = v
-		v = v:gsub("{slndir}", "%%{wks.location}")
-		v = v:gsub("{bindir}", "%%{wks.location}/bin/")
-		v = v:gsub("{libdir}", "%%{wks.location}/lib/{os}-{arch}")
-		--v = v:gsub("%-", "-")
-		v = v:gsub("{%-d}", "%%{iif(cfg.buildtarget.suffix:find('d'), 'd', '')}")
-		-- forced to use shared library 
-		if isimp and rt == PROJECT_CATEGORY_SHARED then
-			v = v:gsub("{%-s}", "")
-			v = v:gsub("{%-sd}", "%%{iif(cfg.buildtarget.suffix:find('d'), '-d', '')}")			
-		-- forced to use static library
-		elseif isimp and rt == PROJECT_CATEGORY_STATIC then
-			v = v:gsub("{%-s}", "s")
-			v = v:gsub("{%-sd}", "%%{iif(cfg.buildtarget.suffix:find('d'), '-sd', '-s')}")
-		-- not forced, juge by target suffix, see if it has any of specific flags
-		else
-			v = v:gsub("{%-s}", "%%{iif(cfg.buildtarget.suffix:find('s'), 's', '')}")
-			v = v:gsub("{%-sd}", "%%{cfg.buildtarget.suffix}")
+function resolve_token(v, isimp, rt)
+	local originv = v
+	v = v:gsub("{slndir}", "%%{wks.location}")
+	v = v:gsub("{bindir}", "%%{wks.location}/bin/")
+	v = v:gsub("{libdir}", "%%{wks.location}/lib/{os}-{arch}")
+	--v = v:gsub("%-", "-")
+	v = v:gsub("{%-d}", "%%{iif(cfg.buildtarget.suffix:find('d'), 'd', '')}")
+	-- forced to use shared library 
+	if isimp and rt == PROJECT_CATEGORY_SHARED then
+		v = v:gsub("{%-s}", "")
+		v = v:gsub("{%-sd}", "%%{iif(cfg.buildtarget.suffix:find('d'), '-d', '')}")			
+	-- forced to use static library
+	elseif isimp and rt == PROJECT_CATEGORY_STATIC then
+		v = v:gsub("{%-s}", "s")
+		v = v:gsub("{%-sd}", "%%{iif(cfg.buildtarget.suffix:find('d'), '-sd', '-s')}")
+	-- not forced, juge by target suffix, see if it has any of specific flags
+	else
+		v = v:gsub("{%-s}", "%%{iif(cfg.buildtarget.suffix:find('s'), 's', '')}")
+		v = v:gsub("{%-sd}", "%%{cfg.buildtarget.suffix}")
+	end
+	v = v:gsub("{libprefix}", get_lib_prefix())
+	v = v:gsub("{.lib}", get_lib_extension())
+	v = v:gsub("{dllprefix}", get_dll_prefix)
+	v = v:gsub("{.dll}", get_dll_extension)
+	v = v:gsub("{arch}", "%%{cfg.architecture}")
+	v = v:gsub("{os}", "%%{cfg.system}")
+	v = v:gsub("{cc}", get_compiler_name())
+	v = v:gsub("{%-cc}", get_compiler_name_or_empty())
+	--v = v:gsub("{%-cc}", "%%{iif(cfg.buildtarget and cfg.buildtarget.suffix:find('s'), get_compiler_name(), '')}")
+	v = v:gsub("{outdir}", "%%{cfg.buildtarget.directory}")
+	v = v:gsub("{outpath}", "%%{cfg.buildtarget.relpath}")
+	v = resolve_envs(v)
+	--print("    resolved: " .. originv .. " -> " .. v)
+	return v
+end
+		
+local function resolve_tokens_recursive(obj, isimp, rt)
+	if type(obj) == "string" then
+		return resolve_token(obj, isimp, rt)
+	elseif type(obj) == "table" then
+		for k, v in pairs(obj) do
+			obj[k] = resolve_tokens_recursive(v, isimp, rt)
 		end
-		v = v:gsub("{libprefix}", get_lib_prefix())
-		v = v:gsub("{.lib}", get_lib_extension())
-		v = v:gsub("{dllprefix}", get_dll_prefix)
-		v = v:gsub("{.dll}", get_dll_extension)
-		v = v:gsub("{arch}", "%%{cfg.architecture}")
-		v = v:gsub("{os}", "%%{cfg.system}")
-		v = v:gsub("{cc}", get_compiler_name())
-		v = v:gsub("{%-cc}", get_compiler_name_or_empty())
-		--v = v:gsub("{%-cc}", "%%{iif(cfg.buildtarget and cfg.buildtarget.suffix:find('s'), get_compiler_name(), '')}")
-		v = v:gsub("{outdir}", "%%{cfg.buildtarget.directory}")
-		v = v:gsub("{outpath}", "%%{cfg.buildtarget.relpath}")
-		v = resolve_envs(v)
-		--print("    resolved: " .. originv .. " -> " .. v)
-		return v
+    return obj
+	else
+		return obj
 	end
+end
 
-	if type(strings) == "string" then
-		return resolve_one(strings)
+local function resolve_tokens_clone(obj, isimp, rt)
+	if type(obj) == "string" then
+		return resolve_token(obj, isimp, rt)
+	elseif type(obj) == "table" then
+		obj = table.deepcopy(obj);
+		return resolve_tokens_recursive(obj, isimp, rt)
+	else
+		return obj
 	end
-
-	for i, v in ipairs(strings) do
-		strings[i] = resolve_one(v)
-	end
-	return strings
 end
 
 
@@ -493,10 +506,14 @@ local lfs = require("lfs")
 
 -- set project category
 function category(name)
+
 	_PROJECT.category = iif(name == nil, PROJECT_CATEGORY_CONSOLE, name)
+	DEBUG_LOG("category %s", _PROJECT.category)
+	
     if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
         configuration {"lib-*"} kind "StaticLib"
         configuration {"dll-*"} kind "SharedLib"
+        configuration {}
 	elseif _PROJECT.category == PROJECT_CATEGORY_SHARED then
 		kind "SharedLib"
 		--configmap {
@@ -512,23 +529,20 @@ function category(name)
     elseif _PROJECT.category == PROJECT_CATEGORY_WINDOW then
         kind "WindowedApp"
         configuration {"windows"} flags { "WinMain" }
+        configuration {}
 	else-- _PROJECT.category == PROJECT_CATEGORY_CONSOLE then
 		kind "ConsoleApp"
     end
-    
-    configuration {}
 end
 
 
 -- set project file output location
 function directory(dir)
 	dir = dir or "builder"
-	dir = resolve_tokens(dir)
-
 	_PROJECT.directory = dir
-	
-	location(dir)
-	configuration {}
+
+	dir = resolve_tokens_clone(dir)
+	premakeAPI.location(dir)
 end
 
 
@@ -554,9 +568,9 @@ function sourcedirs(dirs, opts)
 		"include/" .. _PROJECT.name,
 		"src/" .. _PROJECT.name,
 	}
-  if type(dirs) == "string" then
-    dirs = {dirs}
-  end
+	if type(dirs) == "string" then
+		dirs = {dirs}
+	end
 
 	_PROJECT.sourcedirs = dirs
 
@@ -684,24 +698,18 @@ function sourcedirs(dirs, opts)
     if (not novpath) and next(ps) then
     	vpaths(ps)
 	end
-
-	--assert(lfs.chdir(cd))
-	configuration {}
 end
 
 
 -- set project output filename
 function filename(name)
-	if name then
-		name = resolve_tokens(name)
-	else
+	if not name then
 		name = get_project_filename(_PROJECT.name)
     end
 
 	_PROJECT.filename = name
-
+	name = resolve_tokens_clone(name)
     premakeAPI.filename(name)
-	configuration {}
 end
 
 
@@ -711,12 +719,9 @@ function targetname(name)
 		name = _PROJECT.name .. "{-cc}"
 	end
 
-	local fullname = resolve_tokens(name)
+    _PROJECT.targetname = name
+	local fullname = resolve_tokens_clone(name)
 	premakeAPI.targetname(fullname)
-
-    _PROJECT.targetname = fullname
-
-    configuration {}
 end
 
 -- set build target file prefix
@@ -728,7 +733,7 @@ end
 --	end
 
 --	if prefix then
---		prefix = resolve_tokens(prefix)
+--		prefix = resolve_tokens_clone(prefix)
 
 --	    _PROJECT.targetprefix = prefix
 --		premakeAPI.targetprefix(prefix)
@@ -741,13 +746,12 @@ end
 -- set build target file extension
 function targetext(ext)
 	if ext then
-		ext = resolve_tokens(ext)
-		premakeAPI.targetext(ext)
+		return
 	end
 
 	_PROJECT.targetext = ext
-
-    configuration {}
+	ext = resolve_tokens_clone(ext)
+	premakeAPI.targetext(ext)
 end
 
 
@@ -756,49 +760,43 @@ function targetsuffix(suffix)
 	if suffix then 
 		premakeAPI.targetsuffix(suffix) 
     else
-    	configuration {"dll-debug"} premakeAPI.targetsuffix(resolve_tokens("-d"))
+    	configuration {"dll-debug"} premakeAPI.targetsuffix(resolve_tokens_clone("-d"))
     	configuration {"dll-release"} premakeAPI.targetsuffix("")
     	configuration {"lib-debug"} premakeAPI.targetsuffix "-sd"
     	configuration {"lib-release"} premakeAPI.targetsuffix "-s"
+		configuration {}
 	end
 
 	_PROJECT.targetsuffix = suffix or true
-
-	configuration {}
 end
 
 
 -- set build target directory
 function targetdir(dir)
-	if dir then
-		dir = resolve_tokens(dir)
-	elseif _PROJECT.category == PROJECT_CATEGORY_CONSOLE or _PROJECT.category == PROJECT_CATEGORY_WINDOW then
-		dir = "{bindir}"
-	else
-		dir = "{libdir}"
+	if not dir then
+		if _PROJECT.category == PROJECT_CATEGORY_CONSOLE or 
+		   _PROJECT.category == PROJECT_CATEGORY_WINDOW then
+			dir = "{bindir}"
+		else
+			dir = "{libdir}"
+		end
 	end
 
-	dir = resolve_tokens(dir)
-
 	_PROJECT.targetdir = dir
-
+	dir = resolve_tokens_clone(dir)
     premakeAPI.targetdir(dir)
-	configuration {}
 end
 
 
 -- set build intermidate directory
 function tempdir(dir)
-	if dir then
-		dir = resolve_tokens(dir)
-    else
+	if not dir then
         dir = "tmp"
     end
 
 	_PROJECT.objdir = dir
-
+	dir = resolve_tokens_clone(dir)
 	premakeAPI.objdir(dir)
-	configuration {}
 end
 
 
@@ -808,21 +806,21 @@ function debugdir()
     	dir = "{outdir}"
 	end
 
-	dir = resolve_tokens(dir)
 	_PROJECT.debugdir = dir
-	
+	dir = resolve_tokens_clone(dir)
 	premakeAPI.debugdir(dir)
-	configuration {}
 end
 
 
 -- add pre-build commands
 function prebuildcmds(cmds)
-	if cmds then
-		resolve_tokens(cmds)
-		prebuildcommands(cmds)
-		configuration {}
+	if not cmds then
+		return;
 	end
+
+	_PROJECT.prebuildcmds = cmds
+	cmds = resolve_tokens_clone(cmds)
+	premakeAPI.prebuildcommands(cmds)
 end
 
 
@@ -830,34 +828,37 @@ end
 function postbuildcmds(cmds)
 	if not cmds then
 		if _PROJECT.category == PROJECT_CATEGORY_SHARED and _ACTION ~= "xcode4" then
-			cmds = {"{COPY} {outpath} {bindir}"}
+			cmds = {"{COPY} {outpath} {bindir}"} 
 		end
 	end
 
-	if cmds then
-		cmds = table.deepcopy(cmds)
-		_PROJECT.postbuildcmds = table.deepcopy(cmds)
-		cmds = resolve_tokens(cmds)
-		postbuildcommands(cmds)
-		configuration {}
+	if not cmds then
+		return
 	end
+
+	_PROJECT.postbuildcmds = cmds
+	cmds = resolve_tokens_clone(cmds)
+	premakeAPI.postbuildcommands(cmds)
 end
 
 
 -- add predefined macros
 function defines(defs)
-	if defs then
-		premakeAPI.defines(defs) 
-		configuration {} 
+	if not defs then
+		return
 	end
+
+	defs = resolve_tokens_clone(defs)
+	premakeAPI.defines(defs)
 end
 
 function filter(v)
 	if not v then
 		v = {}
 	end
+
 	DEBUG_LOG("filter %s", table.tostring(v))
-	premakeAPI.filter(v or {})
+	premakeAPI.filter(v)
 end
 
 -- add include directoires
@@ -866,35 +867,57 @@ function includedirs(dirs)
 		"include/" .. _PROJECT.name,
 		"src/" .. _PROJECT.name
 	}
-	resolve_tokens(dirs, true, _PROJECT.runtime)
-	if dirs then
-		DEBUG_LOG("includedirs %s", table.tostring(dirs))
-		premakeAPI.includedirs(dirs) 
+	if not dirs then
+		return
 	end
 
-    configuration {}
+	DEBUG_LOG("includedirs %s", table.tostring(dirs))
+	dirs = resolve_tokens_clone(dirs, true, _PROJECT.runtime)
+	premakeAPI.includedirs(dirs)
 end
 
 -- add library directories
 function libdirs(dirs)
-	resolve_tokens(dirs, true, _PROJECT.runtime)
-	if dirs then
-		DEBUG_LOG("libdirs %s", table.tostring(dirs))
-		premakeAPI.libdirs(dirs)
+	if not dirs then
+		return
 	end
 
-    configuration {} 
+	DEBUG_LOG("libdirs %s", table.tostring(dirs))
+	dirs = resolve_tokens_clone(dirs, true, _PROJECT.runtime)
+	premakeAPI.libdirs(dirs)
 end
 
 -- add link files
 function links(files)
-	resolve_tokens(files, true, _PROJECT.runtime)
-	if files then
-		DEBUG_LOG("links %s", table.tostring(files))
-		premakeAPI.links(files)
+	if not files then
+		return
 	end
 
-    configuration {} 
+	DEBUG_LOG("links %s", table.tostring(files))
+	files = resolve_tokens_clone(files, true, _PROJECT.runtime)
+	premakeAPI.links(files)
+end
+
+-- add link options
+function compileoptions(opts)
+	if not opts then
+		return
+	end
+
+	DEBUG_LOG("compileoptions %s", table.tostring(opts))
+	opts = resolve_tokens_clone(opts, true, _PROJECT.runtime)
+	premakeAPI.buildoptions(opts)
+end
+
+-- add link options
+function linkoptions(opts)
+	if not opts then
+		return
+	end
+
+	DEBUG_LOG("linkoptions %s", table.tostring(opts))
+	opts = resolve_tokens_clone(opts, true, _PROJECT.runtime)
+	premakeAPI.linkoptions(opts)
 end
 
 -- set dependences project which will be built before current project
@@ -906,8 +929,8 @@ function dependbuilds(names)
 				filter = "dll-*"
 			end
 			configuration {filter} premakeAPI.links(name)
+			configuration {}
 		end
-	    configuration {}
 	end
 end
 
@@ -924,7 +947,9 @@ function depends(deps)
             postbuildcmds = table.deepcopy(lib.postbuildcmds),
             prebuildcmds = table.deepcopy(lib.prebuildcmds),
             filter = table.deepcopy(filter),
-            defines = table.deepcopy(lib.defines)
+            defines = table.deepcopy(lib.defines),
+            linkoptions = table.deepcopy(lib.linkoptions),
+            compileoptions = table.deepcopy(lib.compileoptions)
         })
     end
 
@@ -1029,8 +1054,8 @@ function depends(deps)
 		function resolve_one_cmd(cmd)
     		local exec = cmd.exec
     		if exec == "copy" then
-    			local to = resolve_tokens(cmd.to or " {outdir}")
-    			local from = resolve_tokens(cmd.from)
+    			local to = resolve_tokens_clone(cmd.to or " {outdir}")
+    			local from = resolve_tokens_clone(cmd.from)
     			exec = "{COPY} ".. from .. " " .. to
     		end
     		local ret = table.deepcopy(cmd)
@@ -1050,7 +1075,7 @@ function depends(deps)
     		for _, cmd in ipairs(cmds) do
     			if (cmd.filter) then filter(cmd.filter) end
             	postbuildcmds({cmd.fixed})
-          		if (cmd.filter) then filter{lib.filter} end
+          		if (cmd.filter) then filter{} end
     		end
 		end
 		if lib.prebuildcmds then
@@ -1058,7 +1083,23 @@ function depends(deps)
     		for _, cmd in ipairs(cmds) do
 	    		if (cmd.filter) then filter(cmd.filter) end
             	prebuildcmds({cmd.fixed})
-          		if (cmd.filter) then filter{lib.filter} end
+          		if (cmd.filter) then filter{} end
+    		end
+		end
+		if lib.compileoptions then
+    		local opts = lib.compileoptions
+    		for _, opt in ipairs(opts) do
+	    		if (opt.filter) then filter(opt.filter) end
+            	buildoptions({opt.cmdline or opt})
+          		if (opt.filter) then filter{} end
+    		end
+		end
+		if lib.linkoptions then
+			local opts = lib.linkoptions
+    		for _, opt in ipairs(opts) do
+	    		if (opt.filter) then filter(opt.filter) end
+            	linkoptions({opt.cmdline or opt})
+          		if (opt.filter) then filter{} end
     		end
 		end
 		filter{}

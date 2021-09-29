@@ -90,6 +90,9 @@ _LIBRARY_APIS = {
 	includedirs = function(v)
 		_LIBRARY.includedirs = table.join(_LIBRARY.includedirs or {}, v)
 	end,
+	defines = function(v)
+		_LIBRARY.defines = table.join(_LIBRARY.defines or {}, v)
+	end,
 	libdirs = function(v)
 		_LIBRARY.libdirs = table.join(_LIBRARY.libdirs or {}, v)
 	end,
@@ -241,7 +244,7 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 
 	-- -fdeclspec
 	-- TODO: use 'clang' as condition
-	if os.target() ~= "windows" then
+	if os.target() == "macosx" then
 		premakeAPI.buildoptions { "-fdeclspec" }
 	end
 
@@ -281,6 +284,13 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 		premakeAPI.defines {"NDEBUG"} 
 		premakeAPI.runtime("Release")
 		optimize("Speed")
+	configuration {}
+
+	-- lib/dll
+	configuration {"lib-*"}  
+		premakeAPI.defines {_SOLUTION.macroprefix.."_STATIC"}
+	configuration {"dll-*"}  
+		premakeAPI.defines {_SOLUTION.macroprefix.."_SHARED"}
 	configuration {}
 
 	-- apply user settings
@@ -328,11 +338,21 @@ function project(name, macroprefix_or_initialize_cb, initialize_cb)
 	--if _PROJECT.includedirs == nil then includedirs() end	-- includedirs
 
 	-- if this project is a predefined library, then add depends from it's predefined dependences.
-	local predefined = _LIBRARIES[name]
-	if predefined then
-		local deps = predefined.depends
-		if deps then
-			depends(name)
+	local lib = _LIBRARIES[name]
+	if lib then
+		if lib.depends then
+			depends(lib.depends)
+		end
+		if lib.postbuildcmds then
+    		local cmds = resolve_all_cmds(lib.postbuildcmds)
+    		for _, cmd in ipairs(cmds) do
+    			if (cmd.filter) then filter(cmd.filter) end
+            	postbuildcmds({cmd.fixed})
+          		if (cmd.filter) then filter{} end
+    		end
+		end
+		if lib.defines then
+			defines(lib.defines)
 		end
 	end
 
@@ -356,6 +376,12 @@ function runtime(rt)
 			staticruntime "On"
 		configuration{}
 	else
+		if os.target() == "windows" then
+			if _PROJECT.category == PROJECT_CATEGORY_CONSOLE or 
+		   	   _PROJECT.category == PROJECT_CATEGORY_CONSOLE then
+				premakeAPI.linkoptions{"/MANIFEST"}
+	  		end
+  		end
 		configuration {"dll-*"} 
 			premakeAPI.defines { _PROJECT.macroprefix .. "_SHARED"} 
 			--flags { rt or "StaticRuntime" }
@@ -500,6 +526,26 @@ local function resolve_tokens_clone(obj, isimp, rt)
 	end
 end
 
+function resolve_one_cmd(cmd)
+	local exec = cmd.exec
+	if exec == "copy" then
+		local to = resolve_tokens_clone(cmd.to or " {outdir}")
+		local from = resolve_tokens_clone(cmd.from)
+		exec = "{COPY} ".. from .. " " .. to
+	end
+	local ret = table.deepcopy(cmd)
+	ret.fixed = exec
+	return ret
+end
+
+function resolve_all_cmds(cmds)
+	local execs = {}
+	for _, cmd in pairs(cmds) do
+		table.insert(execs, resolve_one_cmd(cmd))
+	end
+	return execs
+end
+
 
 --local lfs = assert(package.loadlib("lfs.dll", "luaopen_lfs"))()
 local lfs = require("lfs")
@@ -580,7 +626,10 @@ function sourcedirs(dirs, opts)
 			return ext or ""
 		end
 
-		exts = exts or { ".c", ".cpp", ".cxx", ".cc", ".h", ".hh", ".hpp", ".hxx", ".m", ".mm" }
+		exts = exts or { ".c", ".cpp", ".cxx", ".cc", ".h", ".hh", ".hpp", ".hxx" }
+		if os.target() == "macosx" then
+			exts = table.join(exts, {".m", ".mm"})
+		end
 		local ext = extof(path):lower()
 		for _, e in ipairs(exts) do
 			if ext == e then
@@ -1050,25 +1099,6 @@ function depends(deps)
 			configuration {}
 		end
     ]]--
-
-		function resolve_one_cmd(cmd)
-    		local exec = cmd.exec
-    		if exec == "copy" then
-    			local to = resolve_tokens_clone(cmd.to or " {outdir}")
-    			local from = resolve_tokens_clone(cmd.from)
-    			exec = "{COPY} ".. from .. " " .. to
-    		end
-    		local ret = table.deepcopy(cmd)
-    		ret.fixed = exec
-    		return ret
-		end
-		function resolve_all_cmds(cmds)
-    		local execs = {}
-    		for _, cmd in pairs(cmds) do
-        		table.insert(execs, resolve_one_cmd(cmd))
-    		end
-    		return execs
-		end
 
 		if lib.postbuildcmds then
     		local cmds = resolve_all_cmds(lib.postbuildcmds)

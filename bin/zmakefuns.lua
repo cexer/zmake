@@ -28,10 +28,10 @@ _LIBRARY = nil; -- current library
 
 -- Project Categories
 PROJECT_CATEGORY_LIBRARY = "Library" 	-- shared or static library
-PROJECT_CATEGORY_SHARED = "SharedLib"	-- shared libary
-PROJECT_CATEGORY_STATIC = "StaticLib"	-- static library
-PROJECT_CATEGORY_CONSOLE = "ConsoleApp"  -- command line app
-PROJECT_CATEGORY_WINDOW = "WindowedApp"    -- windowed gui app
+PROJECT_CATEGORY_SHARED_LIB = "SharedLib"	-- shared libary
+PROJECT_CATEGORY_STATIC_LIB = "StaticLib"	-- static library
+PROJECT_CATEGORY_CONSOLE_APP = "ConsoleApp"  -- command line app
+PROJECT_CATEGORY_WINDOW_APP = "WindowedApp"    -- windowed gui app
 
 -- backup original premake functions
 local premakeAPI = {}
@@ -59,6 +59,8 @@ premakeAPI.buildoptions = buildoptions
 premakeAPI.location = location
 premakeAPI.postbuildcommands = postbuildcommands
 premakeAPI.prebuildcommands = prebuildcommands
+premakeAPI.removefiles = removefiles
+premakeAPI.configurations = configurations
 
 -- Default zmake.lua
 if not _OPTIONS["file"] then
@@ -208,6 +210,13 @@ function get_project_filename(base)
 end
 
 
+function configurations(cfgs)
+	_SOLUTION.configurations = cfgs
+	if cfgs then
+		premakeAPI.configurations(cfgs)
+	end
+end
+
 -- hook solution function
 function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	_SOLUTION = {}
@@ -221,6 +230,12 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	end
 
 	language("c++")
+
+	-- configurations
+	if not _SOLUTION.configurations then
+		configurations {"dll-debug", "dll-release", "lib-debug", "lib-release"}
+	end
+
 	location("")
 	premakeAPI.objdir("tmpdir")
 
@@ -231,9 +246,6 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 
 	-- solution file name
 	premakeAPI.filename(get_project_filename(name))
-
-	-- configurations
-	configurations {"dll-debug", "dll-release", "lib-debug", "lib-release"}
 
 	-- platforms
 	if (os.target() ~= "macosx") then
@@ -274,6 +286,12 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 			premakeAPI.defines {"_WIN64", "WIN64"}
 		filter {}
 	end
+
+	filter {"platforms:x32"}
+	    architecture "x86"
+	filter {"platforms:x64"}
+	    architecture "x86_64"
+	filter {}
 
 	-- debug/release
 	configuration {"*-debug"}  
@@ -359,38 +377,63 @@ function project(name, macroprefix_or_initialize_cb, initialize_cb)
 	DEBUG_LOG("done")
 end
 
-function runtime(rt)
+function runtime(staticOrDynamic,debugOrRelease)
 	_PROJECT.macroprefix = _PROJECT.macroprefix or "PRE"
 	_PROJECT.runtime = rt or "AutoRuntime"
 
-	if _PROJECT.category == PROJECT_CATEGORY_SHARED then
+	-- Windows manifest
+	if os.target() == "windows" then
+		configuration {"*-release"}
+			linkoptions {
+				'/NODEFAULTLIB:"libcmtd.lib"',
+				'/NODEFAULTLIB:"msvcrtd.lib"'
+			}
+		configuration {}
+	
+		if _PROJECT.category == PROJECT_CATEGORY_CONSOLE_APP or 
+	   	   _PROJECT.category == PROJECT_CATEGORY_WINDOW_APP then
+			premakeAPI.linkoptions{"/MANIFEST"}
+  		end
+	end
+
+	-- Define preprocessors
+	if _PROJECT.category == PROJECT_CATEGORY_SHARED_LIB then
 		configuration {"*"} 
 			premakeAPI.defines { _PROJECT.macroprefix .. "_SHARED" } 
-			--flags { rt or "StaticRuntime" }
-			staticruntime "Off"
 		configuration{}
-	elseif _PROJECT.category == PROJECT_CATEGORY_STATIC then
+	elseif _PROJECT.category == PROJECT_CATEGORY_STATIC_LIB then
 		configuration {"*"} 
 			premakeAPI.defines { _PROJECT.macroprefix .. "_STATIC"} 
-			--flags { rt or "StaticRuntime" }
-			staticruntime "On"
 		configuration{}
 	else
-		if os.target() == "windows" then
-			if _PROJECT.category == PROJECT_CATEGORY_CONSOLE or 
-		   	   _PROJECT.category == PROJECT_CATEGORY_CONSOLE then
-				premakeAPI.linkoptions{"/MANIFEST"}
-	  		end
-  		end
 		configuration {"dll-*"} 
 			premakeAPI.defines { _PROJECT.macroprefix .. "_SHARED"} 
-			--flags { rt or "StaticRuntime" }
-			staticruntime "Off"
 		configuration {"lib-*"} 
 			premakeAPI.defines { _PROJECT.macroprefix .. "_STATIC"} 
-			--flags { rt or "StaticRuntime" }
-			staticruntime "On"
 		configuration{}
+	end
+
+	-- Select shared or dynamic runtime
+	if staticOrDynamic == "Static" then
+		staticruntime "On"
+	elseif staticOrDynamic == "Dynamic" then
+		staticruntime "Off"
+	else
+		if _PROJECT.category == PROJECT_CATEGORY_SHARED_LIB then
+			configuration {"*"} 
+				staticruntime "Off"
+			configuration{}
+		elseif _PROJECT.category == PROJECT_CATEGORY_STATIC_LIB then
+			configuration {"*"} 
+				staticruntime "On"
+			configuration{}
+		else
+			configuration {"dll-*"} 
+				staticruntime "Off"
+			configuration {"lib-*"} 
+				staticruntime "On"
+			configuration{}
+		end
 	end
 end
 
@@ -474,11 +517,11 @@ function resolve_token(v, isimp, rt)
 	--v = v:gsub("%-", "-")
 	v = v:gsub("{%-d}", "%%{iif(cfg.buildtarget.suffix:find('d'), 'd', '')}")
 	-- forced to use shared library 
-	if isimp and rt == PROJECT_CATEGORY_SHARED then
+	if isimp and rt == PROJECT_CATEGORY_SHARED_LIB then
 		v = v:gsub("{%-s}", "")
 		v = v:gsub("{%-sd}", "%%{iif(cfg.buildtarget.suffix:find('d'), '-d', '')}")			
 	-- forced to use static library
-	elseif isimp and rt == PROJECT_CATEGORY_STATIC then
+	elseif isimp and rt == PROJECT_CATEGORY_STATIC_LIB then
 		v = v:gsub("{%-s}", "s")
 		v = v:gsub("{%-sd}", "%%{iif(cfg.buildtarget.suffix:find('d'), '-sd', '-s')}")
 	-- not forced, juge by target suffix, see if it has any of specific flags
@@ -553,30 +596,30 @@ local lfs = require("lfs")
 -- set project category
 function category(name)
 
-	_PROJECT.category = iif(name == nil, PROJECT_CATEGORY_CONSOLE, name)
+	_PROJECT.category = iif(name == nil, PROJECT_CATEGORY_CONSOLE_APP, name)
 	DEBUG_LOG("category %s", _PROJECT.category)
 	
     if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
         configuration {"lib-*"} kind "StaticLib"
         configuration {"dll-*"} kind "SharedLib"
         configuration {}
-	elseif _PROJECT.category == PROJECT_CATEGORY_SHARED then
+	elseif _PROJECT.category == PROJECT_CATEGORY_SHARED_LIB then
 		kind "SharedLib"
 		--configmap {
 		--	["lib-debug"] = "dll-debug",
 		--	["lib-release"] = "dll-release"
 		--}
-	elseif _PROJECT.category == PROJECT_CATEGORY_STATIC then
+	elseif _PROJECT.category == PROJECT_CATEGORY_STATIC_LIB then
 		kind "StaticLib"
 		--configmap {
 		--	["dll-debug"] = "lib-debug",
 		--	["dll-release"] = "lib-release" 
 		--}
-    elseif _PROJECT.category == PROJECT_CATEGORY_WINDOW then
+    elseif _PROJECT.category == PROJECT_CATEGORY_WINDOW_APP then
         kind "WindowedApp"
         configuration {"windows"} flags { "WinMain" }
         configuration {}
-	else-- _PROJECT.category == PROJECT_CATEGORY_CONSOLE then
+	else-- _PROJECT.category == PROJECT_CATEGORY_CONSOLE_APP then
 		kind "ConsoleApp"
     end
 end
@@ -584,7 +627,7 @@ end
 
 -- set project file output location
 function directory(dir)
-	dir = dir or "builder"
+	dir = dir or "build"
 	_PROJECT.directory = dir
 
 	dir = resolve_tokens_clone(dir)
@@ -629,6 +672,8 @@ function sourcedirs(dirs, opts)
 		exts = exts or { ".c", ".cpp", ".cxx", ".cc", ".h", ".hh", ".hpp", ".hxx" }
 		if os.target() == "macosx" then
 			exts = table.join(exts, {".m", ".mm"})
+		elseif os.target() == "windows" then
+			exts = table.join(exts, {".rc", ".asm"})
 		end
 		local ext = extof(path):lower()
 		for _, e in ipairs(exts) do
@@ -776,7 +821,7 @@ end
 -- set build target file prefix
 --function targetprefix(prefix)
 --	if not prefix then
---		if _PROJECT.category == PROJECT_CATEGORY_STATIC then
+--		if _PROJECT.category == PROJECT_CATEGORY_STATIC_LIB then
 --			prefix = "{cc}-"
 --		end
 --	end
@@ -806,9 +851,17 @@ end
 
 -- set build target file name suffix
 function targetsuffix(suffix)
-	if suffix then 
+	if suffix and suffix:find("{}") then 
 		premakeAPI.targetsuffix(suffix) 
-    else
+    elseif (suffix == "{-d}") then
+    	configuration {"*-debug"} premakeAPI.targetsuffix(resolve_tokens_clone("-d"))
+    	configuration {"*-release"} premakeAPI.targetsuffix("")
+		configuration {}
+    elseif (suffix == "{-s}") then
+    	configuration {"dll-*"} premakeAPI.targetsuffix(resolve_tokens_clone(""))
+    	configuration {"lib-*"} premakeAPI.targetsuffix("-s")
+		configuration {}
+	else
     	configuration {"dll-debug"} premakeAPI.targetsuffix(resolve_tokens_clone("-d"))
     	configuration {"dll-release"} premakeAPI.targetsuffix("")
     	configuration {"lib-debug"} premakeAPI.targetsuffix "-sd"
@@ -823,8 +876,8 @@ end
 -- set build target directory
 function targetdir(dir)
 	if not dir then
-		if _PROJECT.category == PROJECT_CATEGORY_CONSOLE or 
-		   _PROJECT.category == PROJECT_CATEGORY_WINDOW then
+		if _PROJECT.category == PROJECT_CATEGORY_CONSOLE_APP or 
+		   _PROJECT.category == PROJECT_CATEGORY_WINDOW_APP then
 			dir = "{bindir}"
 		else
 			dir = "{libdir}"
@@ -876,7 +929,7 @@ end
 -- add post-build commands
 function postbuildcmds(cmds)
 	if not cmds then
-		if _PROJECT.category == PROJECT_CATEGORY_SHARED and _ACTION ~= "xcode4" then
+		if _PROJECT.category == PROJECT_CATEGORY_SHARED_LIB and _ACTION ~= "xcode4" then
 			cmds = {"{COPY} {outpath} {bindir}"} 
 		end
 	end
@@ -972,7 +1025,7 @@ end
 -- set dependences project which will be built before current project
 function dependbuilds(names)
 	for _, name in pairs(names) do
-		if _PROJECT.category ~= PROJECT_CATEGORY_STATIC and _SOLUTION.projects[name] then
+		if _PROJECT.category ~= PROJECT_CATEGORY_STATIC_LIB and _SOLUTION.projects[name] then
 			local filter = "*"
 			if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
 				filter = "dll-*"
@@ -1078,7 +1131,7 @@ function depends(deps)
 			defines(lib.defines)
 		end
     
-	    if _PROJECT.category ~= PROJECT_CATEGORY_STATIC then
+	    if _PROJECT.category ~= PROJECT_CATEGORY_STATIC_LIB then
 	      if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
 	        local filterplusdll = table.deepcopy(lib.filter) or {}
 	        table.insert(filterplusdll, "dll-*")
@@ -1090,7 +1143,7 @@ function depends(deps)
 	      filter(lib.filter)
 	    end
 
-		--[[if lib.links and _PROJECT.category ~= PROJECT_CATEGORY_STATIC then
+		--[[if lib.links and _PROJECT.category ~= PROJECT_CATEGORY_STATIC_LIB then
 			local filters = "*"
 			if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
 				filters = "dll-*"

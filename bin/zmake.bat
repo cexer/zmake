@@ -1,2 +1,3 @@
-@ECHO OFF
+::@ECHO OFF
+::projdir MUST NOT endswith \
 premake5.exe --projdir="%cd%" --file="%cd%\zmake.lua" --systemscript="%~dp0zmakefuns.lua" %*

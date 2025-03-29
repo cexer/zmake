@@ -237,7 +237,7 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	end
 
 	location("")
-	premakeAPI.objdir("tmpdir")
+	premakeAPI.objdir("build")
 
 	-- symbols
 	symbols("On")
@@ -893,7 +893,7 @@ end
 -- set build intermidate directory
 function tempdir(dir)
 	if not dir then
-        dir = "tmp"
+        dir = "build"
     end
 
 	_PROJECT.objdir = dir

@@ -1,3 +1,8 @@
+--[[
+configuration \{"(.*?)"\}
+filter {"configurations:$1"}
+]]
+
 -- Options
 newoption {
     trigger = "projdir",
@@ -195,11 +200,13 @@ path.appendextension = function(p, ext)
 end
 
 
+--[[[
 -- hook os.commandTokens.windows.copy
 -- the original windows copy command use xcopy command with /E /F /Y /I flags, which will copy all directory structures even it's empty, we don't want this.
 os.commandTokens.windows.copy = function(v)
 	return "xcopy /F /Y /I " .. path.translate(v)
 end
+]]
 
 function get_project_filename(base)
 	if _ACTION:find("vs20") == 1 or os.target() == "windows" then
@@ -248,11 +255,11 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	premakeAPI.filename(get_project_filename(name))
 
 	-- platforms
-	if (os.target() ~= "macosx") then
-		platforms {"x32", "x64"}
-	else
-		platforms {"x64"}
-	end
+	--if (os.target() ~= "macosx") then
+	--	platforms {"x32", "x64"}
+	--else
+	platforms {"x64"}
+	--end
 
 	-- -fdeclspec
 	-- TODO: use 'clang' as condition
@@ -294,22 +301,22 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	filter {}
 
 	-- debug/release
-	configuration {"*-debug"}  
+	filter {"configurations:*-debug"}  
 		premakeAPI.defines {"_DEBUG"}
 		premakeAPI.runtime("Debug")
 		optimize("Off")
-	configuration {"*-release"}  
+	filter {"configurations:*-release"}  
 		premakeAPI.defines {"NDEBUG"} 
 		premakeAPI.runtime("Release")
 		optimize("Speed")
-	configuration {}
+	filter {}
 
 	-- lib/dll
-	configuration {"lib-*"}  
+	filter {"configurations:lib-*"}  
 		premakeAPI.defines {_SOLUTION.macroprefix.."_STATIC"}
-	configuration {"dll-*"}  
+	filter {"configurations:dll-*"}  
 		premakeAPI.defines {_SOLUTION.macroprefix.."_SHARED"}
-	configuration {}
+	filter {}
 
 	-- apply user settings
 	initialize_cb()
@@ -383,12 +390,12 @@ function runtime(staticOrDynamic,debugOrRelease)
 
 	-- Windows manifest
 	if os.target() == "windows" then
-		configuration {"*-release"}
+		filter {"configurations:*-release"}
 			linkoptions {
 				'/NODEFAULTLIB:"libcmtd.lib"',
 				'/NODEFAULTLIB:"msvcrtd.lib"'
 			}
-		configuration {}
+		filter {}
 	
 		if _PROJECT.category == PROJECT_CATEGORY_CONSOLE_APP or 
 	   	   _PROJECT.category == PROJECT_CATEGORY_WINDOW_APP then
@@ -398,19 +405,19 @@ function runtime(staticOrDynamic,debugOrRelease)
 
 	-- Define preprocessors
 	if _PROJECT.category == PROJECT_CATEGORY_SHARED_LIB then
-		configuration {"*"} 
+		filter {"configurations:*"} 
 			premakeAPI.defines { _PROJECT.macroprefix .. "_SHARED" } 
-		configuration{}
+		filter {}
 	elseif _PROJECT.category == PROJECT_CATEGORY_STATIC_LIB then
-		configuration {"*"} 
+		filter {"configurations:*"} 
 			premakeAPI.defines { _PROJECT.macroprefix .. "_STATIC"} 
-		configuration{}
+		filter {}
 	else
-		configuration {"dll-*"} 
+		filter {"configurations:dll-*"} 
 			premakeAPI.defines { _PROJECT.macroprefix .. "_SHARED"} 
-		configuration {"lib-*"} 
+		filter {"configurations:lib-*"} 
 			premakeAPI.defines { _PROJECT.macroprefix .. "_STATIC"} 
-		configuration{}
+		filter {}
 	end
 
 	-- Select shared or dynamic runtime
@@ -420,19 +427,19 @@ function runtime(staticOrDynamic,debugOrRelease)
 		staticruntime "Off"
 	else
 		if _PROJECT.category == PROJECT_CATEGORY_SHARED_LIB then
-			configuration {"*"} 
+			filter {"configurations:*"} 
 				staticruntime "Off"
-			configuration{}
+			filter {}
 		elseif _PROJECT.category == PROJECT_CATEGORY_STATIC_LIB then
-			configuration {"*"} 
+			filter {"configurations:*"} 
 				staticruntime "On"
-			configuration{}
+			filter {}
 		else
-			configuration {"dll-*"} 
+			filter {"configurations:dll-*"} 
 				staticruntime "Off"
-			configuration {"lib-*"} 
+			filter {"configurations:lib-*"} 
 				staticruntime "On"
-			configuration{}
+			filter {}
 		end
 	end
 end
@@ -600,9 +607,9 @@ function category(name)
 	DEBUG_LOG("category %s", _PROJECT.category)
 	
     if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
-        configuration {"lib-*"} kind "StaticLib"
-        configuration {"dll-*"} kind "SharedLib"
-        configuration {}
+        filter {"configurations:lib-*"} kind "StaticLib"
+        filter {"configurations:dll-*"} kind "SharedLib"
+        filter {}
 	elseif _PROJECT.category == PROJECT_CATEGORY_SHARED_LIB then
 		kind "SharedLib"
 		--configmap {
@@ -617,8 +624,8 @@ function category(name)
 		--}
     elseif _PROJECT.category == PROJECT_CATEGORY_WINDOW_APP then
         kind "WindowedApp"
-        configuration {"windows"} flags { "WinMain" }
-        configuration {}
+        filter {"system:Windows"} entrypoint "WinMain"
+        filter {}
 	else-- _PROJECT.category == PROJECT_CATEGORY_CONSOLE_APP then
 		kind "ConsoleApp"
     end
@@ -832,7 +839,7 @@ end
 --	    _PROJECT.targetprefix = prefix
 --		premakeAPI.targetprefix(prefix)
 		
---	    configuration {}
+--	    filter {}
 --	end
 --end
 
@@ -854,19 +861,19 @@ function targetsuffix(suffix)
 	if suffix and suffix:find("{}") then 
 		premakeAPI.targetsuffix(suffix) 
     elseif (suffix == "{-d}") then
-    	configuration {"*-debug"} premakeAPI.targetsuffix(resolve_tokens_clone("-d"))
-    	configuration {"*-release"} premakeAPI.targetsuffix("")
-		configuration {}
+    	filter {"configurations:*-debug"} premakeAPI.targetsuffix(resolve_tokens_clone("-d"))
+    	filter {"configurations:*-release"} premakeAPI.targetsuffix("")
+		filter {}
     elseif (suffix == "{-s}") then
-    	configuration {"dll-*"} premakeAPI.targetsuffix(resolve_tokens_clone(""))
-    	configuration {"lib-*"} premakeAPI.targetsuffix("-s")
-		configuration {}
+    	filter {"configurations:dll-*"} premakeAPI.targetsuffix(resolve_tokens_clone(""))
+    	filter {"configurations:lib-*"} premakeAPI.targetsuffix("-s")
+		filter {}
 	else
-    	configuration {"dll-debug"} premakeAPI.targetsuffix(resolve_tokens_clone("-d"))
-    	configuration {"dll-release"} premakeAPI.targetsuffix("")
-    	configuration {"lib-debug"} premakeAPI.targetsuffix "-sd"
-    	configuration {"lib-release"} premakeAPI.targetsuffix "-s"
-		configuration {}
+    	filter {"configurations:dll-debug"} premakeAPI.targetsuffix(resolve_tokens_clone("-d"))
+    	filter {"configurations:dll-release"} premakeAPI.targetsuffix("")
+    	filter {"configurations:lib-debug"} premakeAPI.targetsuffix "-sd"
+    	filter {"configurations:lib-release"} premakeAPI.targetsuffix "-s"
+		filter {}
 	end
 
 	_PROJECT.targetsuffix = suffix or true
@@ -1026,12 +1033,12 @@ end
 function dependbuilds(names)
 	for _, name in pairs(names) do
 		if _PROJECT.category ~= PROJECT_CATEGORY_STATIC_LIB and _SOLUTION.projects[name] then
-			local filter = "*"
 			if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
-				filter = "dll-*"
+				filter {"configurations:dll-*"} premakeAPI.links(name)
+			else
+				filter {"configurations:*"} premakeAPI.links(name)
 			end
-			configuration {filter} premakeAPI.links(name)
-			configuration {}
+			filter {}
 		end
 	end
 end
@@ -1146,10 +1153,11 @@ function depends(deps)
 		--[[if lib.links and _PROJECT.category ~= PROJECT_CATEGORY_STATIC_LIB then
 			local filters = "*"
 			if _PROJECT.category == PROJECT_CATEGORY_LIBRARY then
-				filters = "dll-*"
+				filter {"configurations:dll-*"} links(lib.links)
+			else
+				filter {"configurations:*"} links(lib.links)
 			end
-			configuration {filters} links(lib.links)
-			configuration {}
+			filter {}
 		end
     ]]--
 

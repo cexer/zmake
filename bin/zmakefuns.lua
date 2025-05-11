@@ -240,7 +240,7 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 
 	-- configurations
 	if not _SOLUTION.configurations then
-		configurations {"dll-debug", "dll-release", "lib-debug", "lib-release"}
+		configurations {"lib-debug", "lib-release"}
 	end
 
 	location("")
@@ -258,7 +258,7 @@ function solution(name, macroprefix_or_initialize_cb, initialize_cb)
 	--if (os.target() ~= "macosx") then
 	--	platforms {"x32", "x64"}
 	--else
-	platforms {"x64"}
+	platforms {"x32", "x64"}
 	--end
 
 	-- -fdeclspec

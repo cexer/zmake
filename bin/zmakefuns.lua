@@ -624,7 +624,7 @@ function category(name)
 		--}
     elseif _PROJECT.category == PROJECT_CATEGORY_WINDOW_APP then
         kind "WindowedApp"
-        filter {"system:Windows"} entrypoint "WinMain"
+        filter {"system:Windows"} entrypoint "WinMainCRTStartup"
         filter {}
 	else-- _PROJECT.category == PROJECT_CATEGORY_CONSOLE_APP then
 		kind "ConsoleApp"
